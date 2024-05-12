@@ -1,9 +1,7 @@
 package kosmo.pathfinding;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -20,11 +18,6 @@ public class RootController
     private final double SQUARE_SIZE = 25;
     private final GridSquare[][] gridElements = new GridSquare[GRID_ROWS][GRID_COLUMNS];
 
-    // Buttons
-    @FXML private Button originButton;
-    @FXML private Button destinationButton;
-    @FXML private Button obstacleButton;
-
     // Choice Boxes
     @FXML private ChoiceBox<Algorithm> algorithmChoiceBox;
     @FXML private ChoiceBox<Map> mapChoiceBox;
@@ -32,6 +25,9 @@ public class RootController
     // Output Console
     OutputConsole console;
     @FXML private TextArea consoleTextArea;
+
+    // Vis Timer
+    @FXML private Label speedLabel;
 
     // Selections
     @FXML private final PaintWand paintWand = PaintWand.getInstance();
@@ -44,6 +40,7 @@ public class RootController
         initializeConsole();
         initializeGrid();
         initializeWand();
+        initializeVisTimer();
         initializeListeners();
 
         // TESTS
@@ -99,6 +96,11 @@ public class RootController
     {
         console = OutputConsole.get();
         console.setOutputArea(consoleTextArea);
+    }
+
+    private void initializeVisTimer()
+    {
+        VisTimer.getInstance().setSpeedText(speedLabel);
     }
 
     // Listeners

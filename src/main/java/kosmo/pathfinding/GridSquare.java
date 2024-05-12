@@ -168,6 +168,6 @@ public class GridSquare
         }
 
         Platform.runLater(() -> square.setFill(color));
-        //OutputConsole.get().writeLn("row: " + ROW + " col: " + COL + ". Set as: " + state);
+        OutputConsole.get().writeLn("row: " + ROW + " col: " + COL + ". Set as: " + state);
     }
 }

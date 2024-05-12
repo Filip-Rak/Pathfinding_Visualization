@@ -1,5 +1,7 @@
 package kosmo.pathfinding;
 
+import javafx.scene.control.Label;
+
 public class VisTimer
 {
     // Attributes
@@ -9,6 +11,7 @@ public class VisTimer
     private final long baseDelay = 100;
     private volatile long timeToWait = baseDelay;
     private boolean paused = false;
+    private Label speedLabel;
 
     // Singleton
     private static VisTimer instance;
@@ -49,7 +52,6 @@ public class VisTimer
         }
     }
 
-
     // Getters
     public double getSpeed()
     {
@@ -67,7 +69,12 @@ public class VisTimer
         this.speed = Math.clamp(speed, MIN_SPEED, MAX_SPEED);
 
         timeToWait = (long)((float)(baseDelay) / this.speed);
-        OutputConsole.get().writeLn("Speed: " + this.speed);
+        speedLabel.setText(String.format("%.2f", this.speed) + "x");
+    }
+
+    public void setSpeedText(Label speedLabel)
+    {
+        this.speedLabel = speedLabel;
     }
 
     public void setPaused(boolean paused)
