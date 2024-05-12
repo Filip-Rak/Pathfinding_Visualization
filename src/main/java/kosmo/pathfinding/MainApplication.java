@@ -17,7 +17,7 @@ public class MainApplication extends Application
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("root-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setResizable(false);
-        stage.setTitle("Path Finding");
+        stage.setTitle("Pathfinding");
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/kosmo/pathfinding/style.css")).toExternalForm());
 
         //stage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/pau3/icon.png"))));

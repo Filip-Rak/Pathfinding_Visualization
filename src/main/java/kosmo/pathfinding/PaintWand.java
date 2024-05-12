@@ -7,7 +7,7 @@ public class PaintWand
     private GridSquare destination;
     private State function;
 
-    // Single instance of PaintWand held privately
+    // Singleton
     private static PaintWand instance;
 
     private PaintWand()

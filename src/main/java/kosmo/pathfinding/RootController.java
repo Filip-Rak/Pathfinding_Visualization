@@ -3,7 +3,9 @@ package kosmo.pathfinding;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.GridPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
 public class RootController
@@ -27,6 +29,10 @@ public class RootController
     @FXML private ChoiceBox<Algorithm> algorithmChoiceBox;
     @FXML private ChoiceBox<Map> mapChoiceBox;
 
+    // Output Console
+    OutputConsole console;
+    @FXML private TextArea consoleTextArea;
+
     // Selections
     @FXML private final PaintWand paintWand = PaintWand.getInstance();
 
@@ -34,13 +40,15 @@ public class RootController
     // Initialization Methods
     @FXML public void initialize()
     {
+        initializeChoiceBoxes();
+        initializeConsole();
         initializeGrid();
         initializeWand();
-        initializeChoiceBoxes();
         initializeListeners();
 
         // TESTS
-        //startAlgorithm();
+        VisTimer.getInstance().setSpeed(0.2);
+        startAlgorithm();
     }
 
     private void initializeGrid()
@@ -86,7 +94,13 @@ public class RootController
         mapChoiceBox.getItems().addAll(Map.values());
         mapChoiceBox.setValue(Map.TEST_MAP1);
     }
-    
+
+    private void initializeConsole()
+    {
+        console = OutputConsole.get();
+        console.setOutputArea(consoleTextArea);
+    }
+
     // Listeners
     private void initializeListeners()
     {
@@ -109,6 +123,8 @@ public class RootController
 
     // --------------------------
     // Event Methods
+
+    // Paint Wand
     @FXML private void originSelectedEvent()
     {
         paintWand.setFunction(State.ORIGIN);
@@ -124,6 +140,22 @@ public class RootController
         paintWand.setFunction(State.OBSTACLE);
     }
 
+    // Speed Control
+    @FXML private void lowerSpeedEvent()
+    {
+        VisTimer.getInstance().setSpeed(VisTimer.getInstance().getSpeed() - 0.1);
+    }
+
+    @FXML private void increaseSpeedEvent()
+    {
+        VisTimer.getInstance().setSpeed(VisTimer.getInstance().getSpeed() + 0.1);
+    }
+
+    @FXML private void togglePauseEvent()
+    {
+        VisTimer.getInstance().setPaused(!VisTimer.getInstance().isPaused());
+    }
+
     // -------------------------
     // Testing Methods
     public void startAlgorithm()
@@ -132,5 +164,4 @@ public class RootController
         Thread algorithmThread = new Thread(algorithm);
         algorithmThread.start();
     }
-
 }

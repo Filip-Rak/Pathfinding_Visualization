@@ -27,9 +27,9 @@
       <ChoiceBox fx:id="mapChoiceBox" layoutX="148.0" layoutY="14.0" prefWidth="150.0" />
       <ChoiceBox fx:id="algorithmChoiceBox" layoutX="148.0" layoutY="52.0" prefWidth="150.0" />
       <TextArea layoutX="318.0" layoutY="10.0" prefHeight="71.0" prefWidth="420.0" />
-      <ToggleButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="902.0" layoutY="16.0" mnemonicParsing="false" text="pause" />
-      <Button layoutX="835.0" layoutY="50.0" mnemonicParsing="false" text="-" />
-      <Button layoutX="967.0" layoutY="50.0" mnemonicParsing="false" text="+" />
+      <ToggleButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="902.0" layoutY="16.0" mnemonicParsing="false" onAction="#togglePauseEvent" text="pause" />
+      <Button layoutX="835.0" layoutY="50.0" mnemonicParsing="false" onAction="#lowerSpeedEvent" text="-" />
+      <Button layoutX="967.0" layoutY="50.0" mnemonicParsing="false" onAction="#increaseSpeedEvent" text="+" />
       <Label layoutX="872.0" layoutY="48.0" text="Speed:">
          <font>
             <Font size="20.0" />
@@ -66,6 +66,6 @@
             </Button>
          </children>
       </VBox>
-      <TextArea id="console" editable="true" layoutX="26.0" layoutY="526.0" prefHeight="99.0" prefWidth="820.0" stylesheets="@style.css" wrapText="true" />
+      <TextArea id="console" fx:id="consoleTextArea" editable="false" layoutX="26.0" layoutY="526.0" prefHeight="99.0" prefWidth="820.0" stylesheets="@style.css" wrapText="true" />
    </children>
 </AnchorPane>

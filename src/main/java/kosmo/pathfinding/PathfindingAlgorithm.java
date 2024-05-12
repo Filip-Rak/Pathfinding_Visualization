@@ -16,21 +16,26 @@ public class PathfindingAlgorithm implements Runnable
         State[] states = State.values(); // Retrieve all states
         int stateIndex = 0; // Start with the first state
 
-        try {
-            for (GridSquare[] row : gridSquares) {
-                for (GridSquare square : row) {
+        //try {
+            for (GridSquare[] row : gridSquares)
+            {
+                for (GridSquare square : row)
+                {
                     State currentState = states[stateIndex];
+
+                    //OutputConsole.get().write("Column: " + square.getCol() + "\t");
                     square.setState(currentState); // Set the current state
-                    Thread.sleep(100); // Delay for visual effect
+                    //Thread.sleep(1000); // Delay for visual effect
+                    VisTimer.getInstance().Wait();
 
                     // Move to the next state, wrap around if at the end
                     stateIndex = (stateIndex + 1) % states.length;
                 }
             }
-        }
-        catch (InterruptedException e)
+       // }
+        //catch (InterruptedException e)
         {
-            Thread.currentThread().interrupt();
+        //    Thread.currentThread().interrupt();
         }
     }
 }
