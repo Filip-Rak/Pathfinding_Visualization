@@ -1,0 +1,54 @@
+VBox{
+    -fx-spacing: 30;
+    -fx-pref-height: 262;
+    -fx-pref-width: 84;
+    -fx-padding: 10;
+    -fx-border-color: black;
+    -fx-border-width: 2;
+}
+
+VBox Button {
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+    -fx-padding: 0 0 0 0; /* top right bottom left */
+    -fx-pref-height: 60;
+    -fx-pref-width: 60;
+}
+
+#origin {
+    -fx-background-color: blue;
+}
+
+#destination {
+    -fx-background-color: red;
+    -fx-font-size: 10px;
+}
+
+#obstacle {
+    -fx-background-color: black;
+    -fx-text-fill: yellow;
+    -fx-font-size: 12px;
+}
+
+#grid{
+    -fx-border-color: black;
+    -fx-border-width: 2;
+    -fx-padding: 0;
+    -fx-hgap: 0; /* horizontal gap between columns */
+    -fx-vgap: 0; /* vertical gap between rows */
+}
+
+#console{
+    -fx-control-inner-background: white;
+    -fx-font-family: "Consolas", "Monaco", monospace;
+    -fx-highlight-fill: lime;
+    -fx-highlight-text-fill: blue;
+    -fx-text-fill: black;
+    -fx-border-color: gray;
+    -fx-border-width: 2;
+    -fx-font-size: 14px;
+}
+
+Rectangle{
+    -fx-fill: lightgray;
+}
