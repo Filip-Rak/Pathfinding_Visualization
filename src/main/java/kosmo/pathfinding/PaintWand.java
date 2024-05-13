@@ -15,7 +15,7 @@ public class PaintWand
         function = State.ORIGIN;
     }
 
-    public static PaintWand getInstance()
+    public static PaintWand get()
     {
         if (instance == null)
             instance = new PaintWand(); // Create the instance if it does not exist

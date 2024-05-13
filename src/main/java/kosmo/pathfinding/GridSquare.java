@@ -9,7 +9,7 @@ import javafx.scene.shape.Rectangle;
 public class GridSquare
 {
     // Attributes
-    private final int ROW;  // Redundant, but may be useful in algorithms
+    private final int ROW;
     private final int COL;
     private final Rectangle square;
     private State state;
@@ -28,10 +28,19 @@ public class GridSquare
         color = Color.LIGHTGRAY;
     }
 
+    GridSquare(GridSquare gridSquare)
+    {
+        this.ROW = gridSquare.getRow();
+        this.COL = gridSquare.getCol();
+        this.square = gridSquare.getSquare();
+        this.state = gridSquare.state;
+        this.color = gridSquare.color;
+    }
+
     // Methods
     private void changeState(MouseEvent event)
     {
-        PaintWand wand = PaintWand.getInstance();
+        PaintWand wand = PaintWand.get();
 
         if(event.getButton() == MouseButton.SECONDARY)
         {
@@ -105,7 +114,7 @@ public class GridSquare
         wand.getDestination().setState(State.ORIGIN);
         wand.getOrigin().setState(State.DESTINATION);
 
-        // update the wand
+        // Update the wand
         GridSquare buffer = wand.getDestination();
         wand.setDestination(wand.getOrigin());
         wand.setOrigin(buffer);
@@ -130,6 +139,11 @@ public class GridSquare
     public int getCol()
     {
         return COL;
+    }
+
+    public Rectangle getSquare()
+    {
+        return square;
     }
 
     // Setters

@@ -1,10 +1,13 @@
 package kosmo.pathfinding;
 
+import javafx.beans.Observable;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+
+import java.util.LinkedList;
 
 public class RootController
 {
@@ -20,17 +23,17 @@ public class RootController
 
     // Choice Boxes
     @FXML private ChoiceBox<Algorithm> algorithmChoiceBox;
-    @FXML private ChoiceBox<Map> mapChoiceBox;
+    @FXML private ChoiceBox<MapENUM> mapChoiceBox;
 
     // Output Console
-    OutputConsole console;
     @FXML private TextArea consoleTextArea;
 
     // Vis Timer
     @FXML private Label speedLabel;
 
     // Selections
-    @FXML private final PaintWand paintWand = PaintWand.getInstance();
+    private Algorithm currentAlgorithm;
+    private MapENUM currentMap;
 
     // --------------------------
     // Initialization Methods
@@ -43,9 +46,8 @@ public class RootController
         initializeVisTimer();
         initializeListeners();
 
-        // TESTS
-        VisTimer.getInstance().setSpeed(0.2);
-        startAlgorithm();
+        // Tests
+        test();
     }
 
     private void initializeGrid()
@@ -60,7 +62,7 @@ public class RootController
             {
                 Rectangle square = new Rectangle(SQUARE_SIZE, SQUARE_SIZE);
                 grid.add(square, col, row);
-                GridPane.setMargin(square, new javafx.geometry.Insets(1)); // Add a margin of 1 pixel
+                GridPane.setMargin(square, new Insets(1)); // Add a margin of 1 pixel
 
                 // Add to the array
                 gridElements[row][col] = new GridSquare(square, row, col);
@@ -77,8 +79,8 @@ public class RootController
 
     private void initializeWand()
     {
-        paintWand.setOrigin(gridElements[0][0]);
-        paintWand.setDestination(gridElements[GRID_ROWS - 1][GRID_COLUMNS - 1]);
+        PaintWand.get().setOrigin(gridElements[0][0]);
+        PaintWand.get().setDestination(gridElements[GRID_ROWS - 1][GRID_COLUMNS - 1]);
     }
 
     private void initializeChoiceBoxes()
@@ -86,84 +88,149 @@ public class RootController
         // Algorithm Choice Box
         algorithmChoiceBox.getItems().addAll(Algorithm.values());
         algorithmChoiceBox.setValue(Algorithm.TEST1);
+        currentAlgorithm = Algorithm.TEST1;
 
         // Map Choice Box
-        mapChoiceBox.getItems().addAll(Map.values());
-        mapChoiceBox.setValue(Map.TEST_MAP1);
+        mapChoiceBox.getItems().addAll(MapENUM.values());
+        mapChoiceBox.setValue(MapENUM.TEST_MAP1);
+        currentMap = MapENUM.TEST_MAP1;
     }
 
     private void initializeConsole()
     {
-        console = OutputConsole.get();
-        console.setOutputArea(consoleTextArea);
+        OutputConsole.get().setOutputArea(consoleTextArea);
     }
 
     private void initializeVisTimer()
     {
-        VisTimer.getInstance().setSpeedText(speedLabel);
+        Execution.get().setSpeedText(speedLabel);
+        Execution.get().setSpeed(1);
     }
 
     // Listeners
     private void initializeListeners()
     {
         // Algorithm choice box
-        algorithmChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null)
-            {
-                System.out.println("Algorithm changed to: " + newValue);
-            }
-        });
+        algorithmChoiceBox.getSelectionModel().selectedItemProperty().addListener(this::algorithmChangeEvent);
 
         // Map Choice Box
-        mapChoiceBox.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null)
-            {
-                System.out.println("Map changed to: " + newValue);
-            }
-        });
+        mapChoiceBox.getSelectionModel().selectedItemProperty().addListener(this::mapChangeEvent);
     }
+
 
     // --------------------------
     // Event Methods
 
+    // Simulation Running
+    public void startSimulation()
+    {
+        Test1Algorithm algorithm = switch (currentAlgorithm)
+        {
+            case TEST1 -> new Test1Algorithm(gridElements);
+            case TEST2 -> new Test1Algorithm(gridElements);
+        };
+
+        Thread algorithmThread = new Thread(algorithm);
+        algorithmThread.start();
+    }
+
     // Paint Wand
     @FXML private void originSelectedEvent()
     {
-        paintWand.setFunction(State.ORIGIN);
+        PaintWand.get().setFunction(State.ORIGIN);
     }
 
     @FXML private void destinationSelectedEvent()
     {
-        paintWand.setFunction(State.DESTINATION);
+        PaintWand.get().setFunction(State.DESTINATION);
     }
 
     @FXML private void obstacleSelectedEvent()
     {
-        paintWand.setFunction(State.OBSTACLE);
+        PaintWand.get().setFunction(State.OBSTACLE);
     }
 
-    // Speed Control
-    @FXML private void lowerSpeedEvent()
+    // Simulation Control
+    @FXML private void decreaseSpeedEvent()
     {
-        VisTimer.getInstance().setSpeed(VisTimer.getInstance().getSpeed() - 0.1);
+        Execution.get().setSpeed(Execution.get().getSpeed() - 0.1);
     }
 
     @FXML private void increaseSpeedEvent()
     {
-        VisTimer.getInstance().setSpeed(VisTimer.getInstance().getSpeed() + 0.1);
+        Execution.get().setSpeed(Execution.get().getSpeed() + 0.1);
     }
 
     @FXML private void togglePauseEvent()
     {
-        VisTimer.getInstance().setPaused(!VisTimer.getInstance().isPaused());
+        if(Execution.get().isRunning())
+            Execution.get().setPaused(!Execution.get().isPaused());
+    }
+
+    @FXML private void rewindEvent()
+    {
+        if(Execution.get().isRunning())
+        {
+            Execution.get().ceaseExecution();
+        }
+        else
+        {
+            Execution.get().setPaused(false);
+            startSimulation();
+        }
+
+    }
+
+    // Choice Boxes
+    private void algorithmChangeEvent(Observable observable, Algorithm oldValue, Algorithm newValue)
+    {
+        if (newValue != null)
+        {
+            System.out.println("Algorithm changed to: " + newValue);
+            currentAlgorithm = newValue;
+            waitForExecution();
+        }
+    }
+
+    private void mapChangeEvent(Observable observable, MapENUM oldValue, MapENUM newValue)
+    {
+        if (newValue != null)
+        {
+            System.out.println("Map changed to: " + newValue);
+            currentMap = newValue;
+            waitForExecution();
+        }
+    }
+
+    private void waitForExecution()
+    {
+        Execution.get().ceaseExecution();
+
+        new Thread(() ->
+        {
+            while (Execution.get().isRunning())
+            {
+                try { Thread.sleep(100);}
+                catch (InterruptedException e)
+                {
+                    Thread.currentThread().interrupt();
+                    return;
+                }
+            }
+            resetAlgorithmAndMap();
+
+        }).start();
+    }
+
+    private void resetAlgorithmAndMap()
+    {
+        OutputConsole.get().writeLn("READY");
     }
 
     // -------------------------
     // Testing Methods
-    public void startAlgorithm()
+    private void test()
     {
-        PathfindingAlgorithm algorithm = new PathfindingAlgorithm(gridElements);
-        Thread algorithmThread = new Thread(algorithm);
-        algorithmThread.start();
+        LinkedList<String> filenames = MapLoader.getFileNames();
     }
 }

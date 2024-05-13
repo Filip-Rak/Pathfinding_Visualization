@@ -41,6 +41,19 @@ public class OutputConsole
         Platform.runLater(() -> outputArea.appendText(formattedText));
     }
 
+    public void writeSeparator(String separator, int length)
+    {
+        StringBuilder line = new StringBuilder();
+        line.append(String.valueOf(separator).repeat(Math.max(0, length)));
+
+        writeLn(line);
+    }
+
+    public void writeSeparator()
+    {
+        writeSeparator("-",101);
+    }
+
     private String convertArgsToString(Object... args)
     {
         if (args.length == 0) return "";

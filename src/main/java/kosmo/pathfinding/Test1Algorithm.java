@@ -1,10 +1,10 @@
 package kosmo.pathfinding;
 
-public class PathfindingAlgorithm implements Runnable
+public class Test1Algorithm implements Runnable
 {
     private final GridSquare[][] gridSquares;
 
-    public PathfindingAlgorithm(GridSquare[][] gridSquares)
+    public Test1Algorithm(GridSquare[][] gridSquares)
     {
         this.gridSquares = gridSquares;
     }
@@ -12,6 +12,7 @@ public class PathfindingAlgorithm implements Runnable
     @Override
     public void run()
     {
+        Execution.get().startPoint();
         // Example algorithm logic: Change the color of some squares
         State[] states = State.values(); // Retrieve all states
         int stateIndex = 0; // Start with the first state
@@ -22,11 +23,11 @@ public class PathfindingAlgorithm implements Runnable
                 for (GridSquare square : row)
                 {
                     State currentState = states[stateIndex];
+                    Execution.get().Wait();
 
                     //OutputConsole.get().write("Column: " + square.getCol() + "\t");
                     square.setState(currentState); // Set the current state
                     //Thread.sleep(1000); // Delay for visual effect
-                    VisTimer.getInstance().Wait();
 
                     // Move to the next state, wrap around if at the end
                     stateIndex = (stateIndex + 1) % states.length;
@@ -37,5 +38,7 @@ public class PathfindingAlgorithm implements Runnable
         {
         //    Thread.currentThread().interrupt();
         }
+
+            Execution.get().stopPoint();
     }
 }
