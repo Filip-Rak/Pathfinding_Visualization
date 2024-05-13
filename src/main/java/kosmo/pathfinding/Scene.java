@@ -1,10 +1,11 @@
 package kosmo.pathfinding;
 
-public class Map
+public class Scene
 {
     // Attributes
-    private static final int GRID_ROWS = 30;
-    private static final int GRID_COLUMNS = 15;
+    public static final int GRID_ROWS = 15;
+    public static final int GRID_COLUMNS = 30;
+    public static final double SQUARE_SIZE = 25;
 
     private final GridSquare[][] gridElements;
     private final String name;
@@ -12,7 +13,7 @@ public class Map
     private final GridSquare destination;
 
     // Constructors
-    Map(GridSquare[][] gridElements, String name, GridSquare origin, GridSquare destination)
+    Scene(GridSquare[][] gridElements, String name, GridSquare origin, GridSquare destination)
     {
         this.name = name;
         this.gridElements = gridElements;

@@ -149,6 +149,11 @@ public class GridSquare
     // Setters
     public void setState(State state)
     {
+        setState(state, true);
+    }
+
+    public void setState(State state, boolean print)
+    {
         this.state = state;
 
         switch (state)
@@ -182,6 +187,8 @@ public class GridSquare
         }
 
         Platform.runLater(() -> square.setFill(color));
-        OutputConsole.get().writeLn("row: " + ROW + " col: " + COL + ". Set as: " + state);
+
+        if (print)
+            OutputConsole.get().writeLn("row: " + ROW + " col: " + COL + ". Set as: " + state);
     }
 }

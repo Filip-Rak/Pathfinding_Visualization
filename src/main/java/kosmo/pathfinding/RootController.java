@@ -15,15 +15,15 @@ public class RootController
     // Attributes
 
     // Grid
-    @FXML private GridPane grid;
-    private final int GRID_COLUMNS = 30;
+    @FXML private GridPane gridPane;
+    private final int GRID_COLUMNS = 30;    // redundant variables / use constants from Scene instead
     private final int GRID_ROWS = 15;
     private final double SQUARE_SIZE = 25;
     private final GridSquare[][] gridElements = new GridSquare[GRID_ROWS][GRID_COLUMNS];
 
     // Choice Boxes
     @FXML private ChoiceBox<Algorithm> algorithmChoiceBox;
-    @FXML private ChoiceBox<MapENUM> mapChoiceBox;
+    @FXML private ChoiceBox<String> sceneChoiceBox;
 
     // Output Console
     @FXML private TextArea consoleTextArea;
@@ -31,16 +31,21 @@ public class RootController
     // Vis Timer
     @FXML private Label speedLabel;
 
+    // Scenes
+    private LinkedList<Scene> scenes;
+    private final LinkedList<String> sceneNames = new LinkedList<>();
+
     // Selections
     private Algorithm currentAlgorithm;
-    private MapENUM currentMap;
+    private String currentScene;
 
     // --------------------------
     // Initialization Methods
     @FXML public void initialize()
     {
-        initializeChoiceBoxes();
         initializeConsole();
+        initializeScenes();
+        initializeChoiceBoxes();
         initializeGrid();
         initializeWand();
         initializeVisTimer();
@@ -53,7 +58,7 @@ public class RootController
     private void initializeGrid()
     {
         // Clear the previous content
-        grid.getChildren().clear();
+        gridPane.getChildren().clear();
 
         // Fill the grid with squares
         for(int row = 0; row < GRID_ROWS; row++ )
@@ -61,7 +66,7 @@ public class RootController
             for(int col = 0; col < GRID_COLUMNS; col++)
             {
                 Rectangle square = new Rectangle(SQUARE_SIZE, SQUARE_SIZE);
-                grid.add(square, col, row);
+                gridPane.add(square, col, row);
                 GridPane.setMargin(square, new Insets(1)); // Add a margin of 1 pixel
 
                 // Add to the array
@@ -74,13 +79,22 @@ public class RootController
         gridElements[GRID_ROWS - 1][GRID_COLUMNS - 1].setState(State.DESTINATION);
 
         // Make the squares visible
-        grid.setGridLinesVisible(true);
+        gridPane.setGridLinesVisible(true);
     }
 
     private void initializeWand()
     {
         PaintWand.get().setOrigin(gridElements[0][0]);
         PaintWand.get().setDestination(gridElements[GRID_ROWS - 1][GRID_COLUMNS - 1]);
+    }
+
+    private void initializeScenes()
+    {
+        scenes = SceneLoader.loadScenes();
+
+        // Copy scene names
+        for(Scene scene : scenes)
+            sceneNames.add(scene.getName());
     }
 
     private void initializeChoiceBoxes()
@@ -90,10 +104,10 @@ public class RootController
         algorithmChoiceBox.setValue(Algorithm.TEST1);
         currentAlgorithm = Algorithm.TEST1;
 
-        // Map Choice Box
-        mapChoiceBox.getItems().addAll(MapENUM.values());
-        mapChoiceBox.setValue(MapENUM.TEST_MAP1);
-        currentMap = MapENUM.TEST_MAP1;
+        // Scene Choice Box
+        sceneChoiceBox.getItems().addAll(sceneNames);
+        sceneChoiceBox.setValue(sceneNames.getFirst());
+        currentScene = sceneNames.getFirst();
     }
 
     private void initializeConsole()
@@ -113,8 +127,8 @@ public class RootController
         // Algorithm choice box
         algorithmChoiceBox.getSelectionModel().selectedItemProperty().addListener(this::algorithmChangeEvent);
 
-        // Map Choice Box
-        mapChoiceBox.getSelectionModel().selectedItemProperty().addListener(this::mapChangeEvent);
+        // Scene Choice Box
+        sceneChoiceBox.getSelectionModel().selectedItemProperty().addListener(this::sceneChangeEvent);
     }
 
 
@@ -188,16 +202,20 @@ public class RootController
         {
             System.out.println("Algorithm changed to: " + newValue);
             currentAlgorithm = newValue;
+
+            OutputConsole.get().writeSeparator();
             waitForExecution();
         }
     }
 
-    private void mapChangeEvent(Observable observable, MapENUM oldValue, MapENUM newValue)
+    private void sceneChangeEvent(Observable observable, String oldValue, String newValue)
     {
         if (newValue != null)
         {
-            System.out.println("Map changed to: " + newValue);
-            currentMap = newValue;
+            System.out.println("Scene changed to: " + newValue);
+            currentScene = newValue;
+
+            OutputConsole.get().writeSeparator();
             waitForExecution();
         }
     }
@@ -217,20 +235,51 @@ public class RootController
                     return;
                 }
             }
-            resetAlgorithmAndMap();
+            resetAlgorithmAndScene();
 
         }).start();
     }
 
-    private void resetAlgorithmAndMap()
+    private void resetAlgorithmAndScene()
     {
-        OutputConsole.get().writeLn("READY");
+        OutputConsole.get().writeLn("Ready to reset the scene");
+        setScene(scenes.get(sceneNames.indexOf(currentScene)));
+    }
+
+    private void setScene(Scene sceneToSet)
+    {
+        OutputConsole.get().writeLn("Setting up a scene");
+
+        // Remove previous origin from the Wand
+        PaintWand.get().getOrigin().setState(State.NONE, false);
+        PaintWand.get().getDestination().setState(State.NONE, false);
+
+        GridSquare[][] gridSquares = sceneToSet.copyGrid();
+
+        // Assign selected scene grid to displayed gird
+        for(int row = 0; row < Scene.GRID_ROWS; row++)
+        {
+            for(int col = 0; col < Scene.GRID_COLUMNS; col++)
+            {
+                gridElements[row][col].setState(gridSquares[row][col].getState(), false);
+
+                // Update Wand references
+                if(gridElements[row][col].getState() == State.ORIGIN)
+                    PaintWand.get().setOrigin(gridElements[row][col]);
+
+                if(gridElements[row][col].getState() == State.DESTINATION)
+                    PaintWand.get().setDestination(gridElements[row][col]);
+            }
+        }
+
+        OutputConsole.get().writeLn("Scene " + sceneToSet.getName() + " is set");
+        OutputConsole.get().writeSeparator();
     }
 
     // -------------------------
     // Testing Methods
     private void test()
     {
-        LinkedList<String> filenames = MapLoader.getFileNames();
+
     }
 }

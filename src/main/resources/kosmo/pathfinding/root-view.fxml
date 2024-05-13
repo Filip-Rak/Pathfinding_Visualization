@@ -24,7 +24,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <ChoiceBox fx:id="mapChoiceBox" layoutX="148.0" layoutY="14.0" prefWidth="150.0" />
+      <ChoiceBox fx:id="sceneChoiceBox" layoutX="148.0" layoutY="14.0" prefWidth="150.0" />
       <ChoiceBox fx:id="algorithmChoiceBox" layoutX="148.0" layoutY="52.0" prefWidth="150.0" />
       <TextArea layoutX="318.0" layoutY="10.0" prefHeight="71.0" prefWidth="420.0" />
       <ToggleButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="920.0" layoutY="14.0" mnemonicParsing="false" onAction="#togglePauseEvent" text="pause" />
@@ -40,7 +40,7 @@
             <Font size="16.0" />
          </font>
       </Label>
-      <GridPane id="grid" fx:id="grid" gridLinesVisible="true" layoutX="26.0" layoutY="103.0" prefHeight="410.0" prefWidth="820.0" stylesheets="@style.css">
+      <GridPane id="grid" fx:id="gridPane" gridLinesVisible="true" layoutX="26.0" layoutY="103.0" prefHeight="410.0" prefWidth="820.0" stylesheets="@style.css">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />

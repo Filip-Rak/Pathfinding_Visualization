@@ -1,7 +1,6 @@
 package kosmo.pathfinding;
 
 import javafx.application.Platform;
-import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TextArea;
 
 public class OutputConsole

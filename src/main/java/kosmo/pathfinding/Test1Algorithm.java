@@ -26,8 +26,8 @@ public class Test1Algorithm implements Runnable
                     Execution.get().Wait();
 
                     //OutputConsole.get().write("Column: " + square.getCol() + "\t");
+                    //OutputConsole.get().writeSeparator();
                     square.setState(currentState); // Set the current state
-                    //Thread.sleep(1000); // Delay for visual effect
 
                     // Move to the next state, wrap around if at the end
                     stateIndex = (stateIndex + 1) % states.length;
