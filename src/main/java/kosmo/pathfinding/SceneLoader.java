@@ -3,19 +3,22 @@ package kosmo.pathfinding;
 import javafx.scene.shape.Rectangle;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.Objects;
 
 public class SceneLoader
 {
     // Attributes
-    private static final String path = "scenes";
+    private static final String directoryPath = "scenes";
     public static final String extension = "pfscene";
 
     // Methods
     public static LinkedList<String> getFileNames()
     {
-        File directory = new File(path);
+        File directory = new File(directoryPath);
         FilenameFilter filter = (dir, name) -> name.endsWith("." + extension);
         File[] files = directory.listFiles(filter);
 
@@ -64,7 +67,7 @@ public class SceneLoader
 
     public static Scene loadScene(String sceneName) throws Exception
     {
-        String filename = path + "/" + sceneName;
+        String filename = directoryPath + "/" + sceneName;
 
         GridSquare[][] gridElements = new GridSquare[Scene.GRID_ROWS][Scene.GRID_COLUMNS];
         GridSquare origin = null, destination = null;
@@ -122,14 +125,14 @@ public class SceneLoader
 
         if(origin != null && destination != null)
         {
-            String name = filename.substring(path.length() + 1, filename.length() - SceneLoader.extension.length() - 1);
+            String name = filename.substring(directoryPath.length() + 1, filename.length() - SceneLoader.extension.length() - 1);
             return new Scene(gridElements, name, origin, destination, readOnly);
         }
         else
             throw new Exception("Scene " + filename + " is invalid. No origin or destination");
     }
 
-    public static Scene createDefaultScene()
+    public static Scene createEmptyScene(String name)
     {
         GridSquare[][] grid = new GridSquare[Scene.GRID_ROWS][Scene.GRID_COLUMNS];
 
@@ -146,12 +149,15 @@ public class SceneLoader
         grid[0][0].setState(State.ORIGIN);
         grid[Scene.GRID_ROWS - 1][Scene.GRID_COLUMNS - 1].setState(State.DESTINATION);
 
-        return new Scene(grid, "default", grid[0][0], grid[Scene.GRID_ROWS - 1][Scene.GRID_COLUMNS - 1], true);
+        return new Scene(grid, name, grid[0][0], grid[Scene.GRID_ROWS - 1][Scene.GRID_COLUMNS - 1], true);
     }
 
-    public static boolean SaveScene(Scene scene)
+    public static boolean saveScene(Scene scene, boolean overwrite)
     {
-        OutputConsole.get().writeLn("Attempting to save the scene as: " + scene.getName() + "." + extension);
+        if(overwrite)
+            OutputConsole.get().writeLn("Updating scene: " + scene.getName() + "." + extension);
+        else
+            OutputConsole.get().writeLn("Attempting to save the scene as: " + scene.getName() + "." + extension);
 
         if(Objects.equals(scene.getName(), "custom") || Objects.equals(scene.getName(), "default"))
         {
@@ -159,10 +165,10 @@ public class SceneLoader
             return false;
         }
 
-        File file = new File( path + "/" + scene.getName() + "." + extension);
+        File file = new File( directoryPath + "/" + scene.getName() + "." + extension);
 
         // Check if the scene already exists
-        if (!file.exists())
+        if (!file.exists() || overwrite)
         {
             try (FileWriter writer = new FileWriter(file))
             {
@@ -202,6 +208,23 @@ public class SceneLoader
         {
             OutputConsole.get().writeLn("Scene of this name already exists");
             return false;
+        }
+    }
+
+    public static void deleteScene(String name)
+    {
+        String filePath = directoryPath + "/" + name + "." + extension;
+        Path path = Paths.get(filePath);
+
+        try
+        {
+            // Attempt to delete the file
+            Files.delete(path);
+            System.out.println("Scene: " + name + " has been deleted");
+        }
+        catch (IOException e)
+        {
+            System.out.println("Failed to delete the file: " + e.getMessage());
         }
     }
 }

@@ -97,8 +97,8 @@ public class RootController
     {
         scenes = SceneLoader.loadScenes();
 
-        // Set first scene in list as default
-        scenes.addFirst(SceneLoader.createDefaultScene());
+        // Add first scene to list as default
+        scenes.addFirst(SceneLoader.createEmptyScene("default"));
 
         // Copy scene names
         for(Scene scene : scenes)
@@ -108,7 +108,7 @@ public class RootController
         setScene(scenes.get(sceneNames.indexOf(currentScene)));
 
         // Set buttons
-        saveButton.setDisable(true);
+        saveButton.setDisable(false);
         updateButton.setDisable(true);
         deleteButton.setDisable(true);
     }
@@ -232,7 +232,6 @@ public class RootController
 
             // Set buttons
             boolean isReadOnly =  scenes.get(sceneNames.indexOf(currentScene)).isReadOnly();
-            saveButton.setDisable(isReadOnly);
             updateButton.setDisable(isReadOnly);
             deleteButton.setDisable(isReadOnly);
 
@@ -300,21 +299,57 @@ public class RootController
     // Map Saving / Update / Deletion
     @FXML private void saveSceneEvent()
     {
+        saveAndReloadScene(false);
+    }
+
+    @FXML private void updateSceneEvent()
+    {
+        saveAndReloadScene(true);
+    }
+
+    @FXML private void deleteSceneEvent()
+    {
+        // Clear RAM
+        scenes.remove(scenes.get(sceneNames.indexOf(currentScene)));
+        sceneNames.remove(currentScene);
+        sceneChoiceBox.getItems().remove(currentScene);
+
+        // Delete the file
+        SceneLoader.deleteScene(currentScene);
+
+        // Load default / first scene
+        sceneChoiceBox.setValue(sceneNames.getFirst());
+    }
+
+    private void saveAndReloadScene(boolean overwrite)
+    {
         OutputConsole.get().writeSeparator();
 
         // Create a new one using the wand and grid in rootController
-        Scene scene = new Scene(gridElements, filenameField.getText(), PaintWand.get().getOrigin(), PaintWand.get().getDestination(), false);
+        String name = filenameField.getText();
+        if(overwrite) name = currentScene;
+
+        Scene scene = new Scene(gridElements, name, PaintWand.get().getOrigin(), PaintWand.get().getDestination(), false);
 
         // This is terrible, but I spent more than three hours on trying to make it work at all
         // Scene is saved and then manually loaded again from the file
         // The scene would not set its origin and destination after saving, no matter what I did during it's entire session
-        if(SceneLoader.SaveScene(scene))
+        if(SceneLoader.saveScene(scene, overwrite))
         {
             try
             {
-                scenes.addLast(SceneLoader.loadScene(filenameField.getText() + "." + SceneLoader.extension));
+                scenes.addLast(SceneLoader.loadScene(name + "." + SceneLoader.extension));
                 sceneNames.addLast(scenes.getLast().getName());
                 sceneChoiceBox.getItems().addLast(sceneNames.getLast());
+
+                // Delete previous instance
+                if(overwrite)
+                {
+                    sceneNames.remove(currentScene);
+                    scenes.remove(scenes.get(sceneNames.indexOf(currentScene)));
+                    sceneChoiceBox.getItems().remove(currentScene);
+                }
+
                 sceneChoiceBox.setValue(scenes.getLast().getName());
             }
             catch (Exception e)
@@ -324,16 +359,6 @@ public class RootController
         }
 
         OutputConsole.get().writeSeparator();
-    }
-
-    @FXML private void updateSceneEvent()
-    {
-        System.out.println("Update");
-    }
-
-    @FXML private void deleteSceneEvent()
-    {
-        System.out.println("Delete");
     }
 
     // -------------------------
