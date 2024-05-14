@@ -14,6 +14,7 @@ public class Execution
     private boolean paused = true;
     private boolean ceaseExecution = true;
     private boolean isRunning = false;
+    private boolean isRefreshed = true;
     private Label speedLabel;
 
     // Singleton
@@ -87,6 +88,7 @@ public class Execution
     {
         this.ceaseExecution = false;
         this.isRunning = true;
+        this.isRefreshed = false;
     }
 
     public void stopPoint()
@@ -104,9 +106,19 @@ public class Execution
         this.paused = paused;
     }
 
+    public void setRefreshed(boolean refreshed)
+    {
+        isRefreshed = refreshed;
+    }
+
     // Getters
     public boolean isRunning()
     {
         return this.isRunning;
+    }
+
+    public boolean isRefreshed()
+    {
+        return isRefreshed;
     }
 }

@@ -159,9 +159,9 @@ public class SceneLoader
         else
             OutputConsole.get().writeLn("Attempting to save the scene as: " + scene.getName() + "." + extension);
 
-        if(Objects.equals(scene.getName(), "custom") || Objects.equals(scene.getName(), "default"))
+        if(Objects.equals(scene.getName(), "custom") || Objects.equals(scene.getName(), "default") || Objects.equals(scene.getName(), ""))
         {
-            OutputConsole.get().writeLn("Stopping. Name is reserved, change name");
+            OutputConsole.get().writeLn("Stopping. Name invalid, change name");
             return false;
         }
 

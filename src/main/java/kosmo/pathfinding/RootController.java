@@ -200,12 +200,23 @@ public class RootController
     {
         if(Execution.get().isRunning())
         {
+            // Wrap up
             Execution.get().ceaseExecution();
         }
-        else
+        else if(Execution.get().isRefreshed())
         {
+            // Start up
             Execution.get().setPaused(false);
             startSimulation();
+
+            // Disable data buttons
+            saveButton.setDisable(true);
+            updateButton.setDisable(true);
+            deleteButton.setDisable(true);
+        }
+        else // Refresh
+        {
+            resetAlgorithmAndScene();
         }
 
     }
@@ -229,11 +240,6 @@ public class RootController
         {
             System.out.println("Scene changed to: " + newValue);
             currentScene = newValue;
-
-            // Set buttons
-            boolean isReadOnly =  scenes.get(sceneNames.indexOf(currentScene)).isReadOnly();
-            updateButton.setDisable(isReadOnly);
-            deleteButton.setDisable(isReadOnly);
 
             OutputConsole.get().writeSeparator();
             waitForExecution();
@@ -262,6 +268,7 @@ public class RootController
 
     private void resetAlgorithmAndScene()
     {
+        Execution.get().setRefreshed(true);
         OutputConsole.get().writeLn("Ready to reset the scene");
         setScene(scenes.get(sceneNames.indexOf(currentScene)));
     }
@@ -269,6 +276,12 @@ public class RootController
     private void setScene(Scene sceneToSet)
     {
         OutputConsole.get().writeLn("Setting up a scene");
+
+        // Set buttons
+        boolean isReadOnly = scenes.get(sceneNames.indexOf(currentScene)).isReadOnly();
+        saveButton.setDisable(false);
+        updateButton.setDisable(isReadOnly);
+        deleteButton.setDisable(isReadOnly);
 
         // Remove previous origin from the Wand
         PaintWand.get().getOrigin().setState(State.NONE, false);
@@ -300,6 +313,7 @@ public class RootController
     @FXML private void saveSceneEvent()
     {
         saveAndReloadScene(false);
+        filenameField.setText("");
     }
 
     @FXML private void updateSceneEvent()

@@ -27,7 +27,9 @@ public class Test1Algorithm implements Runnable
 
                     //OutputConsole.get().write("Column: " + square.getCol() + "\t");
                     //OutputConsole.get().writeSeparator();
-                    square.setState(currentState); // Set the current state
+
+                    if(currentState != State.ORIGIN && currentState != State.DESTINATION)
+                        square.setState(currentState); // Set the current state
 
                     // Move to the next state, wrap around if at the end
                     stateIndex = (stateIndex + 1) % states.length;
