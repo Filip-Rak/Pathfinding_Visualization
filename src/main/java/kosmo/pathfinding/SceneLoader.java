@@ -65,6 +65,7 @@ public class SceneLoader
     {
         GridSquare[][] gridElements = new GridSquare[Scene.GRID_ROWS][Scene.GRID_COLUMNS];
         GridSquare origin = null, destination = null;
+        boolean readOnly = false;
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filename)))
         {
@@ -73,8 +74,8 @@ public class SceneLoader
             {
                 line = reader.readLine();
 
-                if(i < 0)
-                    continue;
+                if(i == -1) readOnly = line.startsWith("*");
+                if(i < 0) continue;
 
                 // Split the line into columns based on tabs
                 String[] columns = line.split(" {2}");    // 3 spaces because that's how a 'tab' looks like in vs code
@@ -119,9 +120,29 @@ public class SceneLoader
         if(origin != null && destination != null)
         {
             String name = filename.substring(path.length() + 1, filename.length() - SceneLoader.extension.length() - 1);
-            return new Scene(gridElements, name, origin, destination);
+            return new Scene(gridElements, name, origin, destination, readOnly);
         }
         else
             throw new Exception("Scene " + filename + " is invalid. No origin or destination");
+    }
+
+    public static Scene createDefaultScene()
+    {
+        GridSquare[][] grid = new GridSquare[Scene.GRID_ROWS][Scene.GRID_COLUMNS];
+
+        for(int i = 0; i < Scene.GRID_ROWS; i++)
+        {
+            for(int j = 0; j < Scene.GRID_COLUMNS; j++)
+            {
+                Rectangle square = new Rectangle(Scene.SQUARE_SIZE, Scene.SQUARE_SIZE);
+                grid[i][j] = new GridSquare(square, i, j);
+            }
+        }
+
+        // Set two furthest elements as origin and destination
+        grid[0][0].setState(State.ORIGIN);
+        grid[Scene.GRID_ROWS - 1][Scene.GRID_COLUMNS - 1].setState(State.DESTINATION);
+
+        return new Scene(grid, "default", grid[0][0], grid[Scene.GRID_ROWS - 1][Scene.GRID_COLUMNS - 1], true);
     }
 }

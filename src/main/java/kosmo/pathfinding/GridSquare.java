@@ -154,37 +154,13 @@ public class GridSquare
 
     public void setState(State state, boolean print)
     {
-        this.state = state;
+        // Here add new colors in order
+        Color[] colors = { Color.BLUE, Color.RED, Color.BLACK, Color.LIGHTGRAY, Color.LIGHTBLUE,
+                Color.GREEN, Color.YELLOW, Color.DARKGRAY, Color.ORANGE };
 
-        switch (state)
-        {
-            case NONE:
-                this.color = Color.LIGHTGRAY;
-                break;
-            case ORIGIN:
-                this.color = Color.BLUE;
-                break;
-            case DESTINATION:
-                this.color = Color.RED;
-                break;
-            case OBSTACLE:
-                this.color = Color.BLACK;
-                break;
-            case VISITED:
-                this.color = Color.LIGHTBLUE;
-                break;
-            case FRONTIER:
-                this.color = Color.GREEN;
-                break;
-            case PATH:
-                this.color = Color.YELLOW;
-                break;
-            case CLOSED:
-                this.color = Color.DARKGRAY;
-                break;
-            case CURRENT:
-                this.color = Color.ORANGE;
-        }
+        // Set color corresponding to the state ordinal
+        this.color = colors[state.ordinal()];
+        this.state = state;
 
         Platform.runLater(() -> square.setFill(color));
 

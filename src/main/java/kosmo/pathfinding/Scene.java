@@ -11,14 +11,16 @@ public class Scene
     private final String name;
     private final GridSquare origin;
     private final GridSquare destination;
+    private final boolean readOnly;
 
     // Constructors
-    Scene(GridSquare[][] gridElements, String name, GridSquare origin, GridSquare destination)
+    Scene(GridSquare[][] gridElements, String name, GridSquare origin, GridSquare destination, boolean readOnly)
     {
         this.name = name;
         this.gridElements = gridElements;
         this.origin = origin;
         this.destination = destination;
+        this.readOnly = readOnly;
     }
 
     // Methods
@@ -52,5 +54,10 @@ public class Scene
     public GridSquare getDestination()
     {
         return destination;
+    }
+
+    public boolean isReadOnly()
+    {
+        return readOnly;
     }
 }

@@ -21,6 +21,12 @@ public class RootController
     private final double SQUARE_SIZE = 25;
     private final GridSquare[][] gridElements = new GridSquare[GRID_ROWS][GRID_COLUMNS];
 
+    // Scene Saving / Deleting / Update
+    @FXML private Button saveButton;
+    @FXML private Button updateButton;
+    @FXML private Button deleteButton;
+    @FXML private TextField filenameField;
+
     // Choice Boxes
     @FXML private ChoiceBox<Algorithm> algorithmChoiceBox;
     @FXML private ChoiceBox<String> sceneChoiceBox;
@@ -44,10 +50,10 @@ public class RootController
     @FXML public void initialize()
     {
         initializeConsole();
-        initializeScenes();
-        initializeChoiceBoxes();
         initializeGrid();
         initializeWand();
+        initializeScenes();
+        initializeChoiceBoxes();
         initializeVisTimer();
         initializeListeners();
 
@@ -74,9 +80,8 @@ public class RootController
             }
         }
 
-        // Set two furthest elements as origin and destination by default
         gridElements[0][0].setState(State.ORIGIN);
-        gridElements[GRID_ROWS - 1][GRID_COLUMNS - 1].setState(State.DESTINATION);
+        gridElements[Scene.GRID_ROWS - 1][Scene.GRID_COLUMNS - 1].setState(State.DESTINATION);
 
         // Make the squares visible
         gridPane.setGridLinesVisible(true);
@@ -92,9 +97,20 @@ public class RootController
     {
         scenes = SceneLoader.loadScenes();
 
+        // Set first scene in list as default
+        scenes.addFirst(SceneLoader.createDefaultScene());
+
         // Copy scene names
         for(Scene scene : scenes)
             sceneNames.add(scene.getName());
+
+        currentScene = scenes.getFirst().getName();
+        setScene(scenes.get(sceneNames.indexOf(currentScene)));
+
+        // Set buttons
+        saveButton.setDisable(true);
+        updateButton.setDisable(true);
+        deleteButton.setDisable(true);
     }
 
     private void initializeChoiceBoxes()
@@ -215,6 +231,12 @@ public class RootController
             System.out.println("Scene changed to: " + newValue);
             currentScene = newValue;
 
+            // Set buttons
+            boolean isReadOnly =  scenes.get(sceneNames.indexOf(currentScene)).isReadOnly();
+            saveButton.setDisable(isReadOnly);
+            updateButton.setDisable(isReadOnly);
+            deleteButton.setDisable(isReadOnly);
+
             OutputConsole.get().writeSeparator();
             waitForExecution();
         }
@@ -274,6 +296,22 @@ public class RootController
 
         OutputConsole.get().writeLn("Scene " + sceneToSet.getName() + " is set");
         OutputConsole.get().writeSeparator();
+    }
+
+    // Map Saving / Update / Deletion
+    @FXML private void saveSceneEvent()
+    {
+        System.out.println("Save");
+    }
+
+    @FXML private void updateSceneEvent()
+    {
+        System.out.println("Update");
+    }
+
+    @FXML private void deleteSceneEvent()
+    {
+        System.out.println("Delete");
     }
 
     // -------------------------
