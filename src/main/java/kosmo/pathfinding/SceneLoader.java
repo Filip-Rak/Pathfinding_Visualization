@@ -4,12 +4,13 @@ import javafx.scene.shape.Rectangle;
 
 import java.io.*;
 import java.util.LinkedList;
+import java.util.Objects;
 
 public class SceneLoader
 {
     // Attributes
     private static final String path = "scenes";
-    private static final String extension = "pfscene";
+    public static final String extension = "pfscene";
 
     // Methods
     public static LinkedList<String> getFileNames()
@@ -48,7 +49,7 @@ public class SceneLoader
         {
             try
             {
-                scenes.add(loadScene(path +"/" + name));
+                scenes.add(loadScene(name));
             }
             catch (Exception e)
             {
@@ -61,8 +62,10 @@ public class SceneLoader
         return scenes;
     }
 
-    private static Scene loadScene(String filename) throws Exception
+    public static Scene loadScene(String sceneName) throws Exception
     {
+        String filename = path + "/" + sceneName;
+
         GridSquare[][] gridElements = new GridSquare[Scene.GRID_ROWS][Scene.GRID_COLUMNS];
         GridSquare origin = null, destination = null;
         boolean readOnly = false;
@@ -144,5 +147,61 @@ public class SceneLoader
         grid[Scene.GRID_ROWS - 1][Scene.GRID_COLUMNS - 1].setState(State.DESTINATION);
 
         return new Scene(grid, "default", grid[0][0], grid[Scene.GRID_ROWS - 1][Scene.GRID_COLUMNS - 1], true);
+    }
+
+    public static boolean SaveScene(Scene scene)
+    {
+        OutputConsole.get().writeLn("Attempting to save the scene as: " + scene.getName() + "." + extension);
+
+        if(Objects.equals(scene.getName(), "custom") || Objects.equals(scene.getName(), "default"))
+        {
+            OutputConsole.get().writeLn("Stopping. Name is reserved, change name");
+            return false;
+        }
+
+        File file = new File( path + "/" + scene.getName() + "." + extension);
+
+        // Check if the scene already exists
+        if (!file.exists())
+        {
+            try (FileWriter writer = new FileWriter(file))
+            {
+                String header = "o = origin; d = destination; x = obstacle; y = none; * in col 2 row 1 means it's read only; default.pfscene and custom.pfscene are reserved\n" +
+                        "-   1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  16  17  18  19  20  21  22  23  24  25  26  27  28  29  30";
+
+                writer.write(header);
+
+                GridSquare[][] gridSquares = scene.copyGrid();
+                for(int i = 0; i < Scene.GRID_ROWS; i++)
+                {
+                    writer.write("\n" + (i + 1));
+                    for(int j = 0; j < Scene.GRID_COLUMNS; j++)
+                    {
+                        String character = switch (gridSquares[i][j].getState())
+                        {
+                            case ORIGIN -> "o";
+                            case DESTINATION -> "d";
+                            case OBSTACLE -> "x";
+                            default -> "y";
+                        };
+
+                        writer.write("   " + character);
+                    }
+                }
+
+                OutputConsole.get().writeLn("Scene saved");
+                return true;
+            }
+            catch (IOException e)
+            {
+                OutputConsole.get().writeLn("Error writing to file: " + e.getMessage());
+                return false;
+            }
+        }
+        else
+        {
+            OutputConsole.get().writeLn("Scene of this name already exists");
+            return false;
+        }
     }
 }

@@ -40,6 +40,7 @@ public class Scene
         return copy;
     }
 
+
     // Getters
     public String getName()
     {

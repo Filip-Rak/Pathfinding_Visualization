@@ -102,7 +102,7 @@ public class RootController
 
         // Copy scene names
         for(Scene scene : scenes)
-            sceneNames.add(scene.getName());
+            sceneNames.addLast(scene.getName());
 
         currentScene = scenes.getFirst().getName();
         setScene(scenes.get(sceneNames.indexOf(currentScene)));
@@ -146,7 +146,6 @@ public class RootController
         // Scene Choice Box
         sceneChoiceBox.getSelectionModel().selectedItemProperty().addListener(this::sceneChangeEvent);
     }
-
 
     // --------------------------
     // Event Methods
@@ -301,7 +300,30 @@ public class RootController
     // Map Saving / Update / Deletion
     @FXML private void saveSceneEvent()
     {
-        System.out.println("Save");
+        OutputConsole.get().writeSeparator();
+
+        // Create a new one using the wand and grid in rootController
+        Scene scene = new Scene(gridElements, filenameField.getText(), PaintWand.get().getOrigin(), PaintWand.get().getDestination(), false);
+
+        // This is terrible, but I spent more than three hours on trying to make it work at all
+        // Scene is saved and then manually loaded again from the file
+        // The scene would not set its origin and destination after saving, no matter what I did during it's entire session
+        if(SceneLoader.SaveScene(scene))
+        {
+            try
+            {
+                scenes.addLast(SceneLoader.loadScene(filenameField.getText() + "." + SceneLoader.extension));
+                sceneNames.addLast(scenes.getLast().getName());
+                sceneChoiceBox.getItems().addLast(sceneNames.getLast());
+                sceneChoiceBox.setValue(scenes.getLast().getName());
+            }
+            catch (Exception e)
+            {
+                System.out.println("Error occurred during scene reload: " + e.getMessage());
+            }
+        }
+
+        OutputConsole.get().writeSeparator();
     }
 
     @FXML private void updateSceneEvent()
