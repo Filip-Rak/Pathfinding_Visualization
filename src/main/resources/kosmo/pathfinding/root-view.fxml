@@ -27,7 +27,7 @@
       </Label>
       <ChoiceBox fx:id="sceneChoiceBox" layoutX="130.0" layoutY="14.0" prefWidth="150.0" />
       <ChoiceBox fx:id="algorithmChoiceBox" layoutX="130.0" layoutY="52.0" prefWidth="150.0" />
-      <TextArea layoutX="464.0" layoutY="10.0" prefHeight="71.0" prefWidth="354.0" />
+      <TextArea fx:id="algorithmTextArea" layoutX="464.0" layoutY="10.0" prefHeight="71.0" prefWidth="354.0" />
       <ToggleButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="920.0" layoutY="14.0" mnemonicParsing="false" onAction="#togglePauseEvent" text="pause" />
       <Button layoutX="835.0" layoutY="50.0" mnemonicParsing="false" onAction="#decreaseSpeedEvent" text="-" />
       <Button layoutX="967.0" layoutY="50.0" mnemonicParsing="false" onAction="#increaseSpeedEvent" text="+" />

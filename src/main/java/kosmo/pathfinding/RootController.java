@@ -16,16 +16,7 @@ public class RootController
 
     // Grid
     @FXML private GridPane gridPane;
-    private final int GRID_COLUMNS = 30;    // redundant variables / use constants from Scene instead
-    private final int GRID_ROWS = 15;
-    private final double SQUARE_SIZE = 25;
-    private final GridSquare[][] gridElements = new GridSquare[GRID_ROWS][GRID_COLUMNS];
-
-    // Scene Saving / Deleting / Update
-    @FXML private Button saveButton;
-    @FXML private Button updateButton;
-    @FXML private Button deleteButton;
-    @FXML private TextField filenameField;
+    private final GridSquare[][] gridElements = new GridSquare[Scene.GRID_ROWS][Scene.GRID_COLUMNS];
 
     // Choice Boxes
     @FXML private ChoiceBox<Algorithm> algorithmChoiceBox;
@@ -38,10 +29,15 @@ public class RootController
     @FXML private Label speedLabel;
 
     // Scenes
+    @FXML private Button saveButton;
+    @FXML private Button updateButton;
+    @FXML private Button deleteButton;
+    @FXML private TextField filenameField;
+    @FXML private TextArea algorithmTextArea;
     private LinkedList<Scene> scenes;
     private final LinkedList<String> sceneNames = new LinkedList<>();
 
-    // Selections
+    // Selections   // Likely redundant - use Choice Boxes instead
     private Algorithm currentAlgorithm;
     private String currentScene;
 
@@ -67,11 +63,11 @@ public class RootController
         gridPane.getChildren().clear();
 
         // Fill the grid with squares
-        for(int row = 0; row < GRID_ROWS; row++ )
+        for(int row = 0; row < Scene.GRID_ROWS; row++ )
         {
-            for(int col = 0; col < GRID_COLUMNS; col++)
+            for(int col = 0; col < Scene.GRID_COLUMNS; col++)
             {
-                Rectangle square = new Rectangle(SQUARE_SIZE, SQUARE_SIZE);
+                Rectangle square = new Rectangle(Scene.SQUARE_SIZE, Scene.SQUARE_SIZE);
                 gridPane.add(square, col, row);
                 GridPane.setMargin(square, new Insets(1)); // Add a margin of 1 pixel
 
@@ -90,7 +86,7 @@ public class RootController
     private void initializeWand()
     {
         PaintWand.get().setOrigin(gridElements[0][0]);
-        PaintWand.get().setDestination(gridElements[GRID_ROWS - 1][GRID_COLUMNS - 1]);
+        PaintWand.get().setDestination(gridElements[Scene.GRID_ROWS - 1][Scene.GRID_COLUMNS - 1]);
     }
 
     private void initializeScenes()

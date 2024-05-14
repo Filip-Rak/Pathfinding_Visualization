@@ -13,5 +13,5 @@ o = origin; d = destination; x = obstacle; y = none; * in col 2 row 1 means it's
 11   y   y   x   y   y   y   y   y   y   y   y   y   y   x   y   y   x   y   y   y   x   y   y   y   y   y   y   y   y   y
 12   y   y   y   y   y   y   y   y   y   y   y   y   y   x   y   y   x   y   y   y   x   y   y   y   y   y   y   y   y   y
 13   y   y   y   y   y   y   y   y   y   y   y   y   y   x   y   y   x   y   y   y   x   y   y   y   y   y   y   y   y   y
-14   y   y   y   d   o   y   y   y   y   y   y   y   y   x   x   x   x   x   x   x   x   y   y   y   y   y   y   y   y   y
-15   y   y   x   x   x   x   y   y   y   y   y   y   y   x   y   y   x   y   y   y   x   y   y   y   y   y   y   y   y   y
+14   y   y   y   d   o   y   y   y   y   y   y   y   y   x   x   x   x   x   x   x   x   y   y   y   y   x   x   y   y   y
+15   y   y   x   x   x   x   y   y   y   y   y   y   y   x   y   y   x   y   y   y   x   y   y   y   y   x   x   y   y   y
