@@ -146,8 +146,8 @@ public class SceneLoader
         }
 
         // Set two furthest elements as origin and destination
-        grid[0][0].setState(State.ORIGIN);
-        grid[Scene.GRID_ROWS - 1][Scene.GRID_COLUMNS - 1].setState(State.DESTINATION);
+        grid[0][0].setState(State.ORIGIN, false);
+        grid[Scene.GRID_ROWS - 1][Scene.GRID_COLUMNS - 1].setState(State.DESTINATION, false);
 
         return new Scene(grid, name, grid[0][0], grid[Scene.GRID_ROWS - 1][Scene.GRID_COLUMNS - 1], true);
     }

@@ -22,7 +22,7 @@ public class GridSquare
         this.COL = col;
 
         this.square = rectangle;
-        rectangle.setOnMouseClicked(this::changeState);
+        rectangle.setOnMouseClicked(this::changeStateListener);
 
         state = State.NONE;
         color = Color.LIGHTGRAY;
@@ -38,8 +38,11 @@ public class GridSquare
     }
 
     // Methods
-    private void changeState(MouseEvent event)
+    private void changeStateListener(MouseEvent event)
     {
+        if(!Execution.get().isRefreshed())
+            return;
+
         PaintWand wand = PaintWand.get();
 
         if(event.getButton() == MouseButton.SECONDARY)

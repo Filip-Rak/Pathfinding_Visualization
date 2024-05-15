@@ -16,7 +16,7 @@ public class RootController
 
     // Grid
     @FXML private GridPane gridPane;
-    private final GridSquare[][] gridElements = new GridSquare[Scene.GRID_ROWS][Scene.GRID_COLUMNS];
+    private final GridSquare[][] displayGrid = new GridSquare[Scene.GRID_ROWS][Scene.GRID_COLUMNS];
 
     // Choice Boxes
     @FXML private ChoiceBox<Algorithm> algorithmChoiceBox;
@@ -72,12 +72,12 @@ public class RootController
                 GridPane.setMargin(square, new Insets(1)); // Add a margin of 1 pixel
 
                 // Add to the array
-                gridElements[row][col] = new GridSquare(square, row, col);
+                displayGrid[row][col] = new GridSquare(square, row, col);
             }
         }
 
-        gridElements[0][0].setState(State.ORIGIN);
-        gridElements[Scene.GRID_ROWS - 1][Scene.GRID_COLUMNS - 1].setState(State.DESTINATION);
+        displayGrid[0][0].setState(State.ORIGIN);
+        displayGrid[Scene.GRID_ROWS - 1][Scene.GRID_COLUMNS - 1].setState(State.DESTINATION);
 
         // Make the squares visible
         gridPane.setGridLinesVisible(true);
@@ -85,8 +85,8 @@ public class RootController
 
     private void initializeWand()
     {
-        PaintWand.get().setOrigin(gridElements[0][0]);
-        PaintWand.get().setDestination(gridElements[Scene.GRID_ROWS - 1][Scene.GRID_COLUMNS - 1]);
+        PaintWand.get().setOrigin(displayGrid[0][0]);
+        PaintWand.get().setDestination(displayGrid[Scene.GRID_ROWS - 1][Scene.GRID_COLUMNS - 1]);
     }
 
     private void initializeScenes()
@@ -149,13 +149,12 @@ public class RootController
     // Simulation Running
     public void startSimulation()
     {
-        Test1Algorithm algorithm = switch (currentAlgorithm)
+        Thread algorithmThread = switch (currentAlgorithm)
         {
-            case TEST1 -> new Test1Algorithm(gridElements);
-            case TEST2 -> new Test1Algorithm(gridElements);
+            case TEST1 -> new Thread(new Test1Algorithm(displayGrid));
+            case TEST2 -> new Thread(new Test2Algorithm(displayGrid));
         };
-
-        Thread algorithmThread = new Thread(algorithm);
+        
         algorithmThread.start();
     }
 
@@ -224,9 +223,7 @@ public class RootController
         {
             System.out.println("Algorithm changed to: " + newValue);
             currentAlgorithm = newValue;
-
-            OutputConsole.get().writeSeparator();
-            waitForExecution();
+            waitForExecutionEnd();
         }
     }
 
@@ -236,13 +233,11 @@ public class RootController
         {
             System.out.println("Scene changed to: " + newValue);
             currentScene = newValue;
-
-            OutputConsole.get().writeSeparator();
-            waitForExecution();
+            waitForExecutionEnd();
         }
     }
 
-    private void waitForExecution()
+    private void waitForExecutionEnd()
     {
         Execution.get().ceaseExecution();
 
@@ -290,14 +285,14 @@ public class RootController
         {
             for(int col = 0; col < Scene.GRID_COLUMNS; col++)
             {
-                gridElements[row][col].setState(gridSquares[row][col].getState(), false);
+                displayGrid[row][col].setState(gridSquares[row][col].getState(), false);
 
                 // Update Wand references
-                if(gridElements[row][col].getState() == State.ORIGIN)
-                    PaintWand.get().setOrigin(gridElements[row][col]);
+                if(displayGrid[row][col].getState() == State.ORIGIN)
+                    PaintWand.get().setOrigin(displayGrid[row][col]);
 
-                if(gridElements[row][col].getState() == State.DESTINATION)
-                    PaintWand.get().setDestination(gridElements[row][col]);
+                if(displayGrid[row][col].getState() == State.DESTINATION)
+                    PaintWand.get().setDestination(displayGrid[row][col]);
             }
         }
 
@@ -333,13 +328,11 @@ public class RootController
 
     private void saveAndReloadScene(boolean overwrite)
     {
-        OutputConsole.get().writeSeparator();
-
         // Create a new one using the wand and grid in rootController
         String name = filenameField.getText();
         if(overwrite) name = currentScene;
 
-        Scene scene = new Scene(gridElements, name, PaintWand.get().getOrigin(), PaintWand.get().getDestination(), false);
+        Scene scene = new Scene(displayGrid, name, PaintWand.get().getOrigin(), PaintWand.get().getDestination(), false);
 
         // This is terrible, but I spent more than three hours on trying to make it work at all
         // Scene is saved and then manually loaded again from the file

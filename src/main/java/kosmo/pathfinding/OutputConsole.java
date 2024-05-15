@@ -50,6 +50,7 @@ public class OutputConsole
 
     public void writeSeparator()
     {
+        // 101 is console length with "-"
         writeSeparator("-",101);
     }
 
