@@ -6,6 +6,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Objects;
 
@@ -61,6 +63,12 @@ public class SceneLoader
         }
 
         OutputConsole.get().writeSeparator();
+
+        // Sort the scenes alphabetically with read only in the front
+        scenes.sort(Comparator
+                .comparing(Scene::isReadOnly)
+                .reversed()
+                .thenComparing(Scene::getName));
 
         return scenes;
     }

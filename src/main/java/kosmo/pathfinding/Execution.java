@@ -121,4 +121,14 @@ public class Execution
     {
         return isRefreshed;
     }
+
+    public double getMaxSpeed()
+    {
+        return MAX_SPEED;
+    }
+
+    public double getMinSpeed()
+    {
+        return MIN_SPEED;
+    }
 }

@@ -28,15 +28,15 @@
       <ChoiceBox fx:id="sceneChoiceBox" layoutX="130.0" layoutY="14.0" prefWidth="150.0" />
       <ChoiceBox fx:id="algorithmChoiceBox" layoutX="130.0" layoutY="52.0" prefWidth="150.0" />
       <TextArea fx:id="algorithmTextArea" layoutX="464.0" layoutY="10.0" prefHeight="71.0" prefWidth="354.0" />
-      <ToggleButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="920.0" layoutY="14.0" mnemonicParsing="false" onAction="#togglePauseEvent" text="pause" />
-      <Button layoutX="835.0" layoutY="50.0" mnemonicParsing="false" onAction="#decreaseSpeedEvent" text="-" />
+      <ToggleButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="920.0" layoutY="14.0" mnemonicParsing="false" onAction="#pauseButtonEvent" text="pause" />
+      <Button fx:id="decreaseSpeedButton" layoutX="835.0" layoutY="50.0" mnemonicParsing="false" onAction="#decreaseSpeedEvent" text="-" />
       <Button layoutX="967.0" layoutY="50.0" mnemonicParsing="false" onAction="#increaseSpeedEvent" text="+" />
       <Label layoutX="865.0" layoutY="50.0" text="Speed:">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Label fx:id="speedLabel" layoutX="918.0" layoutY="50.0" text="02.x">
+      <Label fx:id="speedLabel" layoutX="918.0" layoutY="50.0" text="5.00x">
          <font>
             <Font size="16.0" />
          </font>
@@ -73,5 +73,6 @@
       <Button fx:id="updateButton" layoutX="301.0" layoutY="51.0" mnemonicParsing="false" onAction="#updateSceneEvent" text="Update" />
       <Button fx:id="deleteButton" layoutX="385.0" layoutY="51.0" mnemonicParsing="false" onAction="#deleteSceneEvent" text="Delete" />
       <TextField fx:id="filenameField" layoutX="362.0" layoutY="14.0" prefHeight="26.0" prefWidth="96.0" />
+      <Label layoutX="836.0" layoutY="75.0" text="Q = higher rate, E = max rate" />
    </children>
 </AnchorPane>

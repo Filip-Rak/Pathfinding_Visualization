@@ -7,11 +7,11 @@ o = origin; d = destination; x = obstacle; y = none; * in col 2 row 1 means it's
 5   y   x   y   y   y   y   y   y   y   y   y   y   y   x   x   x   x   x   x   x   x   y   y   y   y   y   y   x   y   y
 6   y   y   y   y   y   y   y   y   y   y   y   y   y   x   y   y   y   y   y   y   x   y   y   x   y   y   y   y   y   y
 7   y   y   y   y   y   y   y   y   y   y   y   y   y   x   y   y   y   x   x   x   x   x   y   y   y   y   y   y   y   y
-8   y   y   y   y   y   y   y   y   y   y   y   x   y   x   y   y   y   x   y   y   x   y   y   y   y   y   x   y   y   y
+8   y   y   y   y   y   y   y   y   y   y   y   x   y   x   y   y   y   y   y   y   y   y   y   o   y   y   x   y   y   y
 9   y   y   y   x   y   y   y   y   y   y   y   y   y   x   y   y   y   x   y   y   x   y   y   y   y   y   y   y   y   y
-10   y   y   y   y   y   y   x   y   y   y   y   y   y   x   x   x   x   x   x   x   x   y   y   y   x   y   y   y   y   y
-11   y   y   x   y   y   y   y   y   y   y   y   y   y   x   y   y   x   y   y   y   x   y   y   y   y   y   y   y   y   y
+10   y   y   y   y   y   y   x   y   y   y   y   y   y   x   y   x   x   x   x   x   x   y   y   y   x   y   y   y   y   y
+11   y   y   x   y   y   y   y   y   y   y   y   x   y   y   y   y   x   y   y   y   x   y   y   y   y   y   y   y   y   y
 12   y   y   y   y   y   y   y   y   y   y   y   y   y   x   y   y   x   y   y   y   x   y   y   y   y   y   y   y   y   y
 13   y   y   y   y   y   y   y   y   y   y   y   y   y   x   y   y   x   y   y   y   x   y   y   y   y   y   y   y   y   y
-14   y   y   y   d   o   y   y   y   y   y   y   y   y   x   x   x   x   x   x   x   x   y   y   y   y   x   x   y   y   y
+14   y   y   y   d   y   y   y   y   y   y   y   y   y   x   x   x   x   x   x   x   x   y   y   y   y   x   x   y   y   y
 15   y   y   x   x   x   x   y   y   y   y   y   y   y   x   y   y   x   y   y   y   x   y   y   y   y   x   x   y   y   y

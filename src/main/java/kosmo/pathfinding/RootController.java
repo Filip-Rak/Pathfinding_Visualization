@@ -4,6 +4,7 @@ import javafx.beans.Observable;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.shape.Rectangle;
 
@@ -40,6 +41,8 @@ public class RootController
     // Selections   // Likely redundant - use Choice Boxes instead
     private Algorithm currentAlgorithm;
     private String currentScene;
+    private boolean keyQPressed = false;
+    private boolean keyEPressed = false;
 
     // --------------------------
     // Initialization Methods
@@ -52,9 +55,6 @@ public class RootController
         initializeChoiceBoxes();
         initializeVisTimer();
         initializeListeners();
-
-        // Tests
-        test();
     }
 
     private void initializeGrid()
@@ -141,6 +141,43 @@ public class RootController
 
         // Scene Choice Box
         sceneChoiceBox.getSelectionModel().selectedItemProperty().addListener(this::sceneChangeEvent);
+
+        // Speed key listeners
+        gridPane.sceneProperty().addListener((observable, oldScene, newScene) -> {
+            if (newScene != null) // Make sure the new scene is not null
+                addKeyHandlers(newScene);
+        });
+    }
+
+    private void addKeyHandlers(javafx.scene.Scene scene)
+    {
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, e ->
+        {
+            switch (e.getCode())
+            {
+                case Q:
+                    keyQPressed = true;
+                    break;
+                case E:
+                    keyEPressed = true;
+                    break;
+                default:
+            }
+        });
+
+        scene.addEventFilter(KeyEvent.KEY_RELEASED, e ->
+        {
+            switch (e.getCode())
+            {
+                case Q:
+                    keyQPressed = false;
+                    break;
+                case E:
+                    keyEPressed = false;
+                    break;
+                default:
+            }
+        });
     }
 
     // --------------------------
@@ -177,18 +214,42 @@ public class RootController
     // Simulation Control
     @FXML private void decreaseSpeedEvent()
     {
-        Execution.get().setSpeed(Execution.get().getSpeed() - 0.1);
+        double value = speedChange(Execution.get().getMaxSpeed());
+        Execution.get().setSpeed(Execution.get().getSpeed() - value);
     }
 
     @FXML private void increaseSpeedEvent()
     {
-        Execution.get().setSpeed(Execution.get().getSpeed() + 0.1);
+        double value = speedChange(Execution.get().getMaxSpeed());
+        Execution.get().setSpeed(Execution.get().getSpeed() + value);
     }
 
-    @FXML private void togglePauseEvent()
+    private double speedChange(double extreme)
+    {
+        double value = 0.1;
+        if (keyEPressed) value = extreme;
+        else if (keyQPressed) value = 0.4;
+
+        return value;
+    }
+
+    @FXML private void pauseButtonEvent()
     {
         if(Execution.get().isRunning())
+        {
+            // Toggle pause
             Execution.get().setPaused(!Execution.get().isPaused());
+        }
+        else if(Execution.get().isRefreshed())
+        {
+            Execution.get().setPaused(false);
+            startSimulation();
+
+            // Disable data buttons
+            saveButton.setDisable(true);
+            updateButton.setDisable(true);
+            deleteButton.setDisable(true);
+        }
     }
 
     @FXML private void rewindEvent()
@@ -209,8 +270,9 @@ public class RootController
             updateButton.setDisable(true);
             deleteButton.setDisable(true);
         }
-        else // Refresh
+        else
         {
+            // Refresh
             resetAlgorithmAndScene();
         }
 
@@ -362,12 +424,5 @@ public class RootController
         }
 
         OutputConsole.get().writeSeparator();
-    }
-
-    // -------------------------
-    // Testing Methods
-    private void test()
-    {
-
     }
 }
