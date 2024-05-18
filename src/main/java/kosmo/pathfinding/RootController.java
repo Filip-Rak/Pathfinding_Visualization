@@ -6,7 +6,10 @@ import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
+import org.kordamp.ikonli.fontawesome5.FontAwesomeSolid;
+import org.kordamp.ikonli.javafx.FontIcon;
 
 import java.util.LinkedList;
 
@@ -38,9 +41,26 @@ public class RootController
     private LinkedList<Scene> scenes;
     private final LinkedList<String> sceneNames = new LinkedList<>();
 
-    // Selections   // Likely redundant - use Choice Boxes instead
-    private Algorithm currentAlgorithm;
-    private String currentScene;
+    // Speed manipulation
+    @FXML private Button rewindButton;
+    @FXML private Button pauseButton;
+    @FXML private Button increaseSpeedButton;
+    @FXML private Button decreaseSpeedButton;
+
+    // Icons
+    private FontIcon playIcon;
+    private FontIcon stopIcon;
+    private FontIcon syncIcon;
+    private FontIcon playCircleIcon;
+    private FontIcon pauseCircleIcon;
+    private FontIcon forwardIcon;
+    private FontIcon fastForwardIcon;
+    private FontIcon fastBackwardIcon;
+    private FontIcon backwardIcon;
+
+    // Selections
+    private Algorithm currentAlgorithm; // Likely redundant - use Choice Boxes instead
+    private String currentScene;    //
     private boolean keyQPressed = false;
     private boolean keyEPressed = false;
 
@@ -55,6 +75,8 @@ public class RootController
         initializeChoiceBoxes();
         initializeVisTimer();
         initializeListeners();
+        initializeIcons();
+        initializeDescription();
     }
 
     private void initializeGrid()
@@ -133,6 +155,43 @@ public class RootController
         Execution.get().setSpeed(1);
     }
 
+    private void initializeIcons()
+    {
+        // Load icons
+        playIcon = FontIcon.of(FontAwesomeSolid.PLAY);
+        stopIcon = FontIcon.of(FontAwesomeSolid.STOP);
+        syncIcon = FontIcon.of(FontAwesomeSolid.SYNC);
+        playCircleIcon = FontIcon.of(FontAwesomeSolid.PLAY_CIRCLE);
+        pauseCircleIcon = FontIcon.of(FontAwesomeSolid.PAUSE_CIRCLE);
+        forwardIcon = FontIcon.of(FontAwesomeSolid.FORWARD);
+        fastForwardIcon = FontIcon.of(FontAwesomeSolid.FAST_FORWARD);
+        backwardIcon = FontIcon.of(FontAwesomeSolid.BACKWARD);
+        fastBackwardIcon = FontIcon.of(FontAwesomeSolid.FAST_BACKWARD);
+
+        // Add CSS
+        playIcon.getStyleClass().add("icon");
+        stopIcon.getStyleClass().add("icon");
+        syncIcon.getStyleClass().add("icon");
+        playCircleIcon.getStyleClass().add("icon");
+        pauseCircleIcon.getStyleClass().add("icon");
+        forwardIcon.getStyleClass().add("icon");
+        fastForwardIcon.getStyleClass().add("icon");
+        backwardIcon.getStyleClass().add("icon");
+        fastBackwardIcon.getStyleClass().add("icon");
+
+        // Set buttons
+        rewindButton.setGraphic(playIcon);
+        pauseButton.setGraphic(playCircleIcon);
+        increaseSpeedButton.setGraphic(forwardIcon);
+        decreaseSpeedButton.setGraphic(backwardIcon);
+
+    }
+
+    private void initializeDescription()
+    {
+        algorithmTextArea.setText(algorithmDescription(currentAlgorithm));
+    }
+
     // Listeners
     private void initializeListeners()
     {
@@ -157,9 +216,13 @@ public class RootController
             {
                 case Q:
                     keyQPressed = true;
+                    increaseSpeedButton.setGraphic(fastForwardIcon);
+                    decreaseSpeedButton.setGraphic(fastBackwardIcon);
                     break;
                 case E:
                     keyEPressed = true;
+                    increaseSpeedButton.setGraphic(fastForwardIcon);
+                    decreaseSpeedButton.setGraphic(fastBackwardIcon);
                     break;
                 default:
             }
@@ -171,9 +234,13 @@ public class RootController
             {
                 case Q:
                     keyQPressed = false;
+                    increaseSpeedButton.setGraphic(forwardIcon);
+                    decreaseSpeedButton.setGraphic(backwardIcon);
                     break;
                 case E:
                     keyEPressed = false;
+                    increaseSpeedButton.setGraphic(forwardIcon);
+                    decreaseSpeedButton.setGraphic(backwardIcon);
                     break;
                 default:
             }
@@ -239,6 +306,12 @@ public class RootController
         {
             // Toggle pause
             Execution.get().setPaused(!Execution.get().isPaused());
+
+            // Toggle the icon
+            if(pauseButton.getGraphic() == playCircleIcon)
+                pauseButton.setGraphic(pauseCircleIcon);
+            else
+                pauseButton.setGraphic(playCircleIcon);
         }
         else if(Execution.get().isRefreshed())
         {
@@ -249,6 +322,10 @@ public class RootController
             saveButton.setDisable(true);
             updateButton.setDisable(true);
             deleteButton.setDisable(true);
+
+            // Set icons
+            rewindButton.setGraphic(stopIcon);
+            pauseButton.setGraphic(pauseCircleIcon);
         }
     }
 
@@ -258,6 +335,9 @@ public class RootController
         {
             // Wrap up
             Execution.get().ceaseExecution();
+
+            // Set icon
+            rewindButton.setGraphic(syncIcon);
         }
         else if(Execution.get().isRefreshed())
         {
@@ -269,11 +349,19 @@ public class RootController
             saveButton.setDisable(true);
             updateButton.setDisable(true);
             deleteButton.setDisable(true);
+
+            // Set icons
+            rewindButton.setGraphic(stopIcon);
+            pauseButton.setGraphic(pauseCircleIcon);
         }
         else
         {
             // Refresh
             resetAlgorithmAndScene();
+
+            // Set icons
+            rewindButton.setGraphic(playIcon);
+            pauseButton.setGraphic(playCircleIcon);
         }
 
     }
@@ -286,6 +374,10 @@ public class RootController
             System.out.println("Algorithm changed to: " + newValue);
             currentAlgorithm = newValue;
             waitForExecutionEnd();
+
+            // Update button icons
+            rewindButton.setGraphic(playIcon);
+            pauseButton.setGraphic(playCircleIcon);
         }
     }
 
@@ -296,6 +388,10 @@ public class RootController
             System.out.println("Scene changed to: " + newValue);
             currentScene = newValue;
             waitForExecutionEnd();
+
+            // Update button icons
+            rewindButton.setGraphic(playIcon);
+            pauseButton.setGraphic(playCircleIcon);
         }
     }
 
@@ -324,6 +420,20 @@ public class RootController
         Execution.get().setRefreshed(true);
         OutputConsole.get().writeLn("Ready to reset the scene");
         setScene(scenes.get(sceneNames.indexOf(currentScene)));
+        algorithmTextArea.setText(algorithmDescription(currentAlgorithm));;
+    }
+
+    private String algorithmDescription(Algorithm currentAlgorithm)
+    {
+        // Descriptions
+        String t1 = "TEST1\nComplexity: 10/10\nPerformance: 0";
+        String t2 = "TEST2\nAuthor: Monkey\nWorks: yes";
+
+        return switch(currentAlgorithm)
+        {
+            case TEST1 -> t1;
+            case TEST2 -> t2;
+        };
     }
 
     private void setScene(Scene sceneToSet)

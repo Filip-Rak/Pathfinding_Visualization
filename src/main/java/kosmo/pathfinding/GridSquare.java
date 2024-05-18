@@ -157,12 +157,8 @@ public class GridSquare
 
     public void setState(State state, boolean print)
     {
-        // Here add new colors in order
-        Color[] colors = { Color.BLUE, Color.RED, Color.BLACK, Color.LIGHTGRAY, Color.LIGHTBLUE,
-                Color.GREEN, Color.YELLOW, Color.DARKGRAY, Color.ORANGE };
-
         // Set color corresponding to the state ordinal
-        this.color = colors[state.ordinal()];
+        this.color = state.getColor();
         this.state = state;
 
         Platform.runLater(() -> square.setFill(color));

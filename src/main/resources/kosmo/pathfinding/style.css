@@ -52,3 +52,42 @@ VBox Button {
 Rectangle{
     -fx-fill: lightgray;
 }
+
+.icon-button{
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.icon-button:hover{
+    -fx-icon-color: red;
+    -fx-opacity: 0.8;
+}
+
+.icon-button:pressed {
+    -fx-opacity: 0.6;
+}
+
+.icon{
+    -fx-fill: #0f0f0f;
+    -fx-font-size: 22px;
+}
+
+.icon:hover {
+    -fx-fill: green;
+}
+
+.icon:pressed{
+    -fx-fill: red;
+}
+
+#key-box {
+    -fx-padding: 0px;  /* Adds padding inside the VBox */
+    -fx-spacing: 0px;  /* Sets spacing between children in the VBox */
+    -fx-margin: 0;
+}
+
+label{
+    -fx-padding: 0;  /* Ensures no extra padding on labels */
+    -fx-margin: 0;
+}

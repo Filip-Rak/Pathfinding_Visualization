@@ -5,7 +5,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -27,10 +26,9 @@
       </Label>
       <ChoiceBox fx:id="sceneChoiceBox" layoutX="130.0" layoutY="14.0" prefWidth="150.0" />
       <ChoiceBox fx:id="algorithmChoiceBox" layoutX="130.0" layoutY="52.0" prefWidth="150.0" />
-      <TextArea fx:id="algorithmTextArea" layoutX="464.0" layoutY="10.0" prefHeight="71.0" prefWidth="354.0" />
-      <ToggleButton contentDisplay="GRAPHIC_ONLY" graphicTextGap="0.0" layoutX="920.0" layoutY="14.0" mnemonicParsing="false" onAction="#pauseButtonEvent" text="pause" />
-      <Button fx:id="decreaseSpeedButton" layoutX="835.0" layoutY="50.0" mnemonicParsing="false" onAction="#decreaseSpeedEvent" text="-" />
-      <Button layoutX="967.0" layoutY="50.0" mnemonicParsing="false" onAction="#increaseSpeedEvent" text="+" />
+      <TextArea fx:id="algorithmTextArea" editable="false" layoutX="464.0" layoutY="10.0" prefHeight="71.0" prefWidth="354.0" />
+      <Button fx:id="decreaseSpeedButton" contentDisplay="GRAPHIC_ONLY" layoutX="836.0" layoutY="51.0" mnemonicParsing="false" onAction="#decreaseSpeedEvent" styleClass="icon-button" text="-" />
+      <Button fx:id="increaseSpeedButton" contentDisplay="GRAPHIC_ONLY" layoutX="964.0" layoutY="51.0" mnemonicParsing="false" onAction="#increaseSpeedEvent" styleClass="icon-button" text="+" />
       <Label layoutX="865.0" layoutY="50.0" text="Speed:">
          <font>
             <Font size="16.0" />
@@ -68,11 +66,12 @@
          </children>
       </VBox>
       <TextArea id="console" fx:id="consoleTextArea" editable="false" layoutX="26.0" layoutY="526.0" prefHeight="99.0" prefWidth="820.0" stylesheets="@style.css" wrapText="true" />
-      <Button fx:id="rewindButton" contentDisplay="GRAPHIC_ONLY" layoutX="865.0" layoutY="14.0" mnemonicParsing="false" onAction="#rewindEvent" text="rewind" />
+      <Button fx:id="rewindButton" contentDisplay="GRAPHIC_ONLY" layoutX="872.0" layoutY="14.0" mnemonicParsing="false" onAction="#rewindEvent" styleClass="icon-button" text="rewind" />
       <Button fx:id="saveButton" layoutX="301.0" layoutY="15.0" mnemonicParsing="false" onAction="#saveSceneEvent" text="Save as" />
       <Button fx:id="updateButton" layoutX="301.0" layoutY="51.0" mnemonicParsing="false" onAction="#updateSceneEvent" text="Update" />
       <Button fx:id="deleteButton" layoutX="385.0" layoutY="51.0" mnemonicParsing="false" onAction="#deleteSceneEvent" text="Delete" />
       <TextField fx:id="filenameField" layoutX="362.0" layoutY="14.0" prefHeight="26.0" prefWidth="96.0" />
-      <Label layoutX="836.0" layoutY="75.0" text="Q = higher rate, E = max rate" />
+      <Label layoutX="850.0" layoutY="75.0" text="Q = 0.4x, E = min / max" textAlignment="CENTER" />
+      <Button fx:id="pauseButton" contentDisplay="GRAPHIC_ONLY" layoutX="924.0" layoutY="14.0" mnemonicParsing="false" onAction="#pauseButtonEvent" styleClass="icon-button" text="pause" />
    </children>
 </AnchorPane>

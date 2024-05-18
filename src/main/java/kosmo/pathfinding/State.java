@@ -1,16 +1,33 @@
 package kosmo.pathfinding;
 
-// Update here requires color update in GridSquare.setState()
+import javafx.scene.paint.Color;
+
 public enum State
 {
-    ORIGIN,
-    DESTINATION,
-    OBSTACLE,
-    NONE,
-    VISITED,
-    FRONTIER,
-    PATH,
-    CLOSED,
-    CURRENT
+    // Enums
+    ORIGIN(Color.BLUE),
+    DESTINATION(Color.RED),
+    OBSTACLE(Color.BLACK),
+    NONE(Color.LIGHTGRAY),
+    VISITED(Color.LIGHTBLUE),
+    FRONTIER(Color.GREEN),
+    PATH(Color.YELLOW),
+    CLOSED(Color.DARKGRAY),
+    CURRENT(Color.ORANGE);
+
+    // Attributes
+    private final Color color;
+
+    // Constructor
+    State(Color color)
+    {
+        this.color = color;
+    }
+
+    // Getters
+    public Color getColor()
+    {
+        return color;
+    }
 }
 
