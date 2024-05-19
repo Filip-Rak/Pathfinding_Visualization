@@ -1,0 +1,18 @@
+# Ignore everything
+*
+#Except ignore
+!.gitignore
+
+# Except pom.xml
+!pom.xml
+
+# Except draft.png
+!draft.png
+
+# Except src directory
+!src/
+!src/**
+
+# Except scenes directory
+!scenes/
+!scenes/**
