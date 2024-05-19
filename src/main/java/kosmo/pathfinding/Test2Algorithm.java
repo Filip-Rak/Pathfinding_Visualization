@@ -2,35 +2,41 @@ package kosmo.pathfinding;
 
 public class Test2Algorithm implements Runnable
 {
+    // Attributes
     private final GridSquare[][] gridSquares;
 
+    // Constructor
     public Test2Algorithm(GridSquare[][] gridSquares)
     {
         this.gridSquares = gridSquares;
     }
 
+    // Algorithm's work and GridSquare.setState only in this method
+    // The method is called inside RootController
     @Override
     public void run()
     {
+        // Put this at the beginning of run method. It tells the program that the algorithm started work
+        // Do not update states before it
         Execution.get().startPoint();
-        State[] states = State.values();
-        int stateIndex = 0;
 
-        //try {
-            for (GridSquare[] row : gridSquares)
+        for (int i = 0; i < Scene.GRID_ROWS; i++)
+        {
+            for (int j = 0; j < Scene.GRID_COLUMNS; j++)
             {
-                for (GridSquare square : row)
-                {
-                    State currentState = states[stateIndex];
-                    Execution.get().Wait();
+                // You can print info about algorithm's work to console
+                OutputConsole.get().writeLn("i = " + i + "\nj = " + j + "\nBefore change: " + gridSquares[i][j].getState());
+                OutputConsole.get().writeSeparator();
 
-                    if(currentState != State.ORIGIN && currentState != State.DESTINATION)
-                        square.setState(State.OBSTACLE); // Set the current state
+                // Sets state. With 'false' it won't print into console
+                gridSquares[i][j].setState(State.OBSTACLE, false);
 
-                    stateIndex = (stateIndex + 1) % states.length;
-                }
+                // Makes a delay between frames
+                Execution.get().Wait();
             }
+        }
 
-            Execution.get().stopPoint();
+        // Tells the app that the algorithm finished working and the grid can be refreshed
+        Execution.get().stopPoint();
     }
 }

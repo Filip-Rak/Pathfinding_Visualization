@@ -2,45 +2,52 @@ package kosmo.pathfinding;
 
 public class Test1Algorithm implements Runnable
 {
+    // Attributes
     private final GridSquare[][] gridSquares;
 
+    // Constructor
     public Test1Algorithm(GridSquare[][] gridSquares)
     {
         this.gridSquares = gridSquares;
     }
 
+    // Do drawing and the algorithm inside this method
+    // The method is called in RootController
     @Override
     public void run()
     {
+        // At the start of the algorithm set this
         Execution.get().startPoint();
-        // Example algorithm logic: Change the color of some squares
-        State[] states = State.values(); // Retrieve all states
-        int stateIndex = 0; // Start with the first state
 
-        //try {
-            for (GridSquare[] row : gridSquares)
-            {
-                for (GridSquare square : row)
-                {
-                    State currentState = states[stateIndex];
-                    Execution.get().Wait();
+        // You can nest methods inside it
+        method();
 
-                    //OutputConsole.get().write("Column: " + square.getCol() + "\t");
-                    //OutputConsole.get().writeSeparator();
+        // At the end of the algorithm set this
+        Execution.get().stopPoint();
+    }
 
-                    if(currentState != State.ORIGIN && currentState != State.DESTINATION)
-                        square.setState(currentState); // Set the current state
+    private void method()
+    {
+        State[] states = State.values();
+        int stateIndex = 0;
 
-                    // Move to the next state, wrap around if at the end
-                    stateIndex = (stateIndex + 1) % states.length;
-                }
-            }
-       // }
-        //catch (InterruptedException e)
+        for (GridSquare[] row : gridSquares)
         {
-        //    Thread.currentThread().interrupt();
-        }
+            for (GridSquare square : row)
+            {
+                State currentState = states[stateIndex];
 
-            Execution.get().stopPoint();
+                if(currentState != State.ORIGIN && currentState != State.DESTINATION)
+                {
+                    // GridSquare.setState(State, boolean print = true) // Sets the state - visually too
+                    square.setState(currentState);
+                }
+
+                // Call this to make a delay in animation. Do it after state changes, console outputs or whatever
+                Execution.get().Wait();
+
+                stateIndex = (stateIndex + 1) % states.length;
+            }
+        }
     }
 }

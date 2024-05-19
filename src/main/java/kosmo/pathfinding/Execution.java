@@ -45,8 +45,7 @@ public class Execution
                 waitedTime = System.currentTimeMillis() - startTime;
 
                 // Break will happen if the speed is decreased far enough
-                if ((!paused && (timeToWait - waitedTime < 0)) || ceaseExecution)
-                    break;
+                if ((!paused && (timeToWait - waitedTime < 0)) || ceaseExecution) break;
             }
         }
         catch (InterruptedException e)
