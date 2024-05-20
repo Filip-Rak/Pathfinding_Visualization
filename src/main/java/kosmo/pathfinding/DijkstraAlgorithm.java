@@ -3,7 +3,7 @@ package kosmo.pathfinding;
 import java.util.PriorityQueue;
 import java.util.Comparator;
 
-public class Dijkstra implements Runnable
+public class DijkstraAlgorithm implements Runnable
 {
     // Attributes
     private final GridSquare[][] gridSquares;
@@ -11,7 +11,7 @@ public class Dijkstra implements Runnable
     private final int cols;
 
     // Constructor
-    public Dijkstra(GridSquare[][] gridSquares)
+    public DijkstraAlgorithm(GridSquare[][] gridSquares)
     {
         this.gridSquares = gridSquares;
         this.rows = Scene.GRID_ROWS;
