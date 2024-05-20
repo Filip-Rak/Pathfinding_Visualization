@@ -14,7 +14,7 @@ import java.util.Objects;
 public class SceneLoader
 {
     // Attributes
-    private static final String directoryPath = "scenes";
+    private static final String directoryPath = "src/main/resources/scenes";
     public static final String extension = "pfscene";
 
     // Methods
