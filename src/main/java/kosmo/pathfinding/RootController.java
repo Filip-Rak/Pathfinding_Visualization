@@ -72,9 +72,9 @@ public class RootController
         initializeWand();
         initializeScenes();
         initializeChoiceBoxes();
-        initializeVisTimer();
         initializeListeners();
         initializeIcons();
+        initializeExecution();
         initializeDescription();
     }
 
@@ -134,8 +134,8 @@ public class RootController
     {
         // Algorithm Choice Box
         algorithmChoiceBox.getItems().addAll(Algorithm.values());
-        algorithmChoiceBox.setValue(Algorithm.TEST1);
-        currentAlgorithm = Algorithm.TEST1;
+        algorithmChoiceBox.setValue(Algorithm.values()[0]);
+        currentAlgorithm = Algorithm.values()[0];
 
         // Scene Choice Box
         sceneChoiceBox.getItems().addAll(sceneNames);
@@ -148,9 +148,10 @@ public class RootController
         OutputConsole.get().setOutputArea(consoleTextArea);
     }
 
-    private void initializeVisTimer()
+    private void initializeExecution()
     {
         Execution.get().setSpeedText(speedLabel);
+        Execution.get().setRewindButton(rewindButton, syncIcon);
         Execution.get().setSpeed(1);
     }
 
@@ -256,7 +257,7 @@ public class RootController
         {
             case TEST1 -> new Thread(new Test1Algorithm(displayGrid));
             case TEST2 -> new Thread(new Test2Algorithm(displayGrid));
-            case DIJKSTRA ->  new Thread(new Dijkstra(displayGrid));
+            case DIJKSTRA ->  new Thread(new DijkstraAlgorithm(displayGrid));
         };
         
         algorithmThread.start();
@@ -335,9 +336,6 @@ public class RootController
         {
             // Wrap up
             Execution.get().ceaseExecution();
-
-            // Set icon
-            rewindButton.setGraphic(syncIcon);
         }
         else if(Execution.get().isRefreshed())
         {
@@ -420,7 +418,7 @@ public class RootController
         Execution.get().setRefreshed(true);
         OutputConsole.get().writeLn("Ready to reset the scene");
         setScene(scenes.get(sceneNames.indexOf(currentScene)));
-        algorithmTextArea.setText(algorithmDescription(currentAlgorithm));;
+        algorithmTextArea.setText(algorithmDescription(currentAlgorithm));
     }
 
     private String algorithmDescription(Algorithm currentAlgorithm)

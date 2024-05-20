@@ -1,9 +1,11 @@
 package kosmo.pathfinding;
 
 import javafx.application.Platform;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import org.kordamp.ikonli.javafx.FontIcon;
 
-public class Execution
+public class Execution implements Runnable
 {
     // Attributes
     private final double MAX_SPEED = 5;
@@ -11,11 +13,17 @@ public class Execution
     private double speed = 1;
     private final long BASE_DELAY = 100;
     private volatile long timeToWait = BASE_DELAY;
+
+    // Flags
     private boolean paused = true;
     private boolean ceaseExecution = true;
     private boolean isRunning = false;
     private boolean isRefreshed = true;
+
+    // External elements
     private Label speedLabel;
+    private Button rewindButton;
+    private FontIcon syncIcon;
 
     // Singleton
     private static Execution instance;
@@ -54,15 +62,11 @@ public class Execution
         }
     }
 
-    // Getters
-    public double getSpeed()
-    {
-        return this.speed;
-    }
 
-    public boolean isPaused()
+    @Override
+    public void run()
     {
-        return paused;
+        Platform.runLater(() -> this.rewindButton.setGraphic(syncIcon));
     }
 
     // Setters
@@ -90,9 +94,16 @@ public class Execution
         this.isRefreshed = false;
     }
 
+    public void setRewindButton(Button rewindButton, FontIcon icon)
+    {
+        this.rewindButton = rewindButton;
+        this.syncIcon = icon;
+    }
+
     public void stopPoint()
     {
         this.isRunning = false;
+        run();
     }
 
     public void setSpeedText(Label speedLabel)
@@ -129,5 +140,15 @@ public class Execution
     public double getMinSpeed()
     {
         return MIN_SPEED;
+    }
+
+    public double getSpeed()
+    {
+        return this.speed;
+    }
+
+    public boolean isPaused()
+    {
+        return paused;
     }
 }
