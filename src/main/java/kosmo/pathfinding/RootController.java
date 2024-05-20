@@ -28,8 +28,11 @@ public class RootController
     // Output Console
     @FXML private TextArea consoleTextArea;
 
-    // Vis Timer
+    // Execution
     @FXML private Label speedLabel;
+    @FXML private Label CPUTimeLabelMicro;
+    @FXML private Label CPUTimeLabelMilli;
+    @FXML private Label totalTimeLabelSeconds;
 
     // Scenes
     @FXML private Button saveButton;
@@ -151,6 +154,7 @@ public class RootController
     private void initializeExecution()
     {
         Execution.get().setSpeedText(speedLabel);
+        Execution.get().setCPUTimeLabels(CPUTimeLabelMicro, CPUTimeLabelMilli, totalTimeLabelSeconds);
         Execution.get().setRewindButton(rewindButton, syncIcon);
         Execution.get().setSpeed(1);
     }

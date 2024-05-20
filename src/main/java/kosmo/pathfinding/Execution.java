@@ -14,6 +14,10 @@ public class Execution implements Runnable
     private final long BASE_DELAY = 100;
     private volatile long timeToWait = BASE_DELAY;
 
+    // Duration measuring
+    private long beginTime = System.nanoTime();
+    private long totalWaitDuration = 0;
+
     // Flags
     private boolean paused = true;
     private boolean ceaseExecution = true;
@@ -22,6 +26,9 @@ public class Execution implements Runnable
 
     // External elements
     private Label speedLabel;
+    private Label CPUTimeMicro;
+    private Label CPUTimeMilli;
+    private Label totalTimeLabelSeconds;
     private Button rewindButton;
     private FontIcon syncIcon;
 
@@ -43,6 +50,7 @@ public class Execution implements Runnable
     public void Wait()
     {
         long startTime = System.currentTimeMillis();
+        long startTimeNano = System.nanoTime();
         long waitedTime = 0;
 
         try
@@ -60,13 +68,26 @@ public class Execution implements Runnable
         {
             System.out.println("Waiting was interrupted.");
         }
-    }
 
+        totalWaitDuration += (System.nanoTime() - startTimeNano);
+
+        run();
+    }
 
     @Override
     public void run()
     {
-        Platform.runLater(() -> this.rewindButton.setGraphic(syncIcon));
+        if(!isRunning) Platform.runLater(() -> this.rewindButton.setGraphic(syncIcon));
+
+        // Perform the time calculation
+        long elapsedTimeMicro = ((System.nanoTime() - beginTime) - totalWaitDuration) / 1000;
+        long elapsedTimeMilli = ((System.nanoTime() - beginTime) - totalWaitDuration) / 1000000000;
+        long elapsedTimeTotalSeconds = ((System.nanoTime() - beginTime)) / 1000000000;
+
+        // Pass to the method
+        Platform.runLater(()-> CPUTimeMicro.setText(Long.toString(elapsedTimeMicro)));
+        Platform.runLater(()-> CPUTimeMilli.setText(Long.toString(elapsedTimeMilli)));
+        Platform.runLater(()-> totalTimeLabelSeconds.setText(Long.toString(elapsedTimeTotalSeconds)));
     }
 
     // Setters
@@ -92,6 +113,9 @@ public class Execution implements Runnable
         this.ceaseExecution = false;
         this.isRunning = true;
         this.isRefreshed = false;
+
+        this.totalWaitDuration = 0;
+        this.beginTime = System.nanoTime();
     }
 
     public void setRewindButton(Button rewindButton, FontIcon icon)
@@ -104,6 +128,11 @@ public class Execution implements Runnable
     {
         this.isRunning = false;
         run();
+
+        System.out.print("Total: " +  (System.nanoTime() - beginTime));
+        System.out.print("\tWait: " +  (totalWaitDuration));
+        System.out.print("\tCPU: " +  ((System.nanoTime() - beginTime) - (totalWaitDuration)));
+        System.out.println("\tCPU (millis): " +  ((System.nanoTime() - beginTime) - (totalWaitDuration)) / 1000000000);
     }
 
     public void setSpeedText(Label speedLabel)
@@ -119,6 +148,13 @@ public class Execution implements Runnable
     public void setRefreshed(boolean refreshed)
     {
         isRefreshed = refreshed;
+    }
+
+    public void setCPUTimeLabels(Label micro, Label milli, Label total)
+    {
+        this.CPUTimeMicro = micro;
+        this.CPUTimeMilli = milli;
+        this.totalTimeLabelSeconds = total;
     }
 
     // Getters

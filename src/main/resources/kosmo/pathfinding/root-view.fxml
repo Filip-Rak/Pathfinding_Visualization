@@ -12,66 +12,84 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="kosmo.pathfinding.RootController">
-   <children>
-      <Label layoutX="26.0" layoutY="16.0" prefHeight="30.0" prefWidth="63.0" text="Scene:" AnchorPane.leftAnchor="26.0" AnchorPane.topAnchor="16.0">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="640.0"
+            prefWidth="1000.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="kosmo.pathfinding.RootController">
+   <Label layoutX="26.0" layoutY="16.0" prefHeight="30.0" prefWidth="63.0" text="Scene:" AnchorPane.leftAnchor="26.0"
+          AnchorPane.topAnchor="16.0">
+      <font>
+         <Font size="20.0"/>
+      </font>
+   </Label>
+   <Label layoutX="26.0" layoutY="54.0" prefHeight="30.0" prefWidth="96.0" text="Algorithm:">
+      <font>
+         <Font size="20.0"/>
+      </font>
+   </Label>
+   <ChoiceBox fx:id="sceneChoiceBox" layoutX="130.0" layoutY="14.0" prefWidth="150.0"/>
+   <ChoiceBox fx:id="algorithmChoiceBox" layoutX="130.0" layoutY="52.0" prefWidth="150.0"/>
+   <TextArea fx:id="algorithmTextArea" editable="false" layoutX="464.0" layoutY="10.0" prefHeight="71.0"
+             prefWidth="150.0"/>
+   <Button fx:id="decreaseSpeedButton" contentDisplay="GRAPHIC_ONLY" layoutX="836.0" layoutY="51.0"
+           mnemonicParsing="false" onAction="#decreaseSpeedEvent" styleClass="icon-button" text="-"/>
+   <Button fx:id="increaseSpeedButton" contentDisplay="GRAPHIC_ONLY" layoutX="964.0" layoutY="51.0"
+           mnemonicParsing="false" onAction="#increaseSpeedEvent" styleClass="icon-button" text="+"/>
+   <Label layoutX="865.0" layoutY="50.0" text="Speed:">
+      <font>
+         <Font size="16.0"/>
+      </font>
+   </Label>
+   <Label fx:id="speedLabel" layoutX="918.0" layoutY="50.0" text="5.00x">
+      <font>
+         <Font size="16.0"/>
+      </font>
+   </Label>
+   <GridPane id="grid" fx:id="gridPane" gridLinesVisible="true" layoutX="26.0" layoutY="103.0" prefHeight="410.0"
+             prefWidth="820.0" stylesheets="@style.css">
+      <columnConstraints>
+         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+      </columnConstraints>
+      <rowConstraints>
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+      </rowConstraints>
+   </GridPane>
+   <VBox layoutX="872.0" layoutY="103.0" prefHeight="248.0" prefWidth="80.0" stylesheets="@style.css">
+      <Button id="origin" mnemonicParsing="false" onAction="#originSelectedEvent"
+              stylesheets="@style.css" text="Origin"/>
+      <Button id="destination" mnemonicParsing="false" onAction="#destinationSelectedEvent"
+              stylesheets="@style.css" text="Destination">
          <font>
-            <Font size="20.0" />
+            <Font size="8.0"/>
          </font>
-      </Label>
-      <Label layoutX="26.0" layoutY="54.0" prefHeight="30.0" prefWidth="96.0" text="Algorithm:">
+      </Button>
+      <Button id="obstacle"  mnemonicParsing="false" onAction="#obstacleSelectedEvent"
+              prefWidth="66.0" stylesheets="@style.css" text="Obstacle">
          <font>
-            <Font size="20.0" />
+            <Font size="10.0"/>
          </font>
-      </Label>
-      <ChoiceBox fx:id="sceneChoiceBox" layoutX="130.0" layoutY="14.0" prefWidth="150.0" />
-      <ChoiceBox fx:id="algorithmChoiceBox" layoutX="130.0" layoutY="52.0" prefWidth="150.0" />
-      <TextArea fx:id="algorithmTextArea" editable="false" layoutX="464.0" layoutY="10.0" prefHeight="71.0" prefWidth="354.0" />
-      <Button fx:id="decreaseSpeedButton" contentDisplay="GRAPHIC_ONLY" layoutX="836.0" layoutY="51.0" mnemonicParsing="false" onAction="#decreaseSpeedEvent" styleClass="icon-button" text="-" />
-      <Button fx:id="increaseSpeedButton" contentDisplay="GRAPHIC_ONLY" layoutX="964.0" layoutY="51.0" mnemonicParsing="false" onAction="#increaseSpeedEvent" styleClass="icon-button" text="+" />
-      <Label layoutX="865.0" layoutY="50.0" text="Speed:">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
-      <Label fx:id="speedLabel" layoutX="918.0" layoutY="50.0" text="5.00x">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Label>
-      <GridPane id="grid" fx:id="gridPane" gridLinesVisible="true" layoutX="26.0" layoutY="103.0" prefHeight="410.0" prefWidth="820.0" stylesheets="@style.css">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-      </GridPane>
-      <VBox layoutX="872.0" layoutY="103.0" prefHeight="248.0" prefWidth="80.0" stylesheets="@style.css">
-         <children>
-            <Button id="origin" fx:id="originButton" mnemonicParsing="false" onAction="#originSelectedEvent" stylesheets="@style.css" text="Origin" />
-            <Button id="destination" fx:id="destinationButton" mnemonicParsing="false" onAction="#destinationSelectedEvent" stylesheets="@style.css" text="Destination">
-               <font>
-                  <Font size="8.0" />
-               </font>
-            </Button>
-            <Button id="obstacle" fx:id="obstacleButton" mnemonicParsing="false" onAction="#obstacleSelectedEvent" prefWidth="66.0" stylesheets="@style.css" text="Obstacle">
-               <font>
-                  <Font size="10.0" />
-               </font>
-            </Button>
-         </children>
-      </VBox>
-      <TextArea id="console" fx:id="consoleTextArea" editable="false" layoutX="26.0" layoutY="526.0" prefHeight="99.0" prefWidth="820.0" stylesheets="@style.css" wrapText="true" />
-      <Button fx:id="rewindButton" contentDisplay="GRAPHIC_ONLY" layoutX="872.0" layoutY="14.0" mnemonicParsing="false" onAction="#rewindEvent" styleClass="icon-button" text="rewind" />
-      <Button fx:id="saveButton" layoutX="301.0" layoutY="15.0" mnemonicParsing="false" onAction="#saveSceneEvent" text="Save as" />
-      <Button fx:id="updateButton" layoutX="301.0" layoutY="51.0" mnemonicParsing="false" onAction="#updateSceneEvent" text="Update" />
-      <Button fx:id="deleteButton" layoutX="385.0" layoutY="51.0" mnemonicParsing="false" onAction="#deleteSceneEvent" text="Delete" />
-      <TextField fx:id="filenameField" layoutX="362.0" layoutY="14.0" prefHeight="26.0" prefWidth="96.0" />
-      <Label layoutX="850.0" layoutY="75.0" text="Q = 0.4x, E = min / max" textAlignment="CENTER" />
-      <Button fx:id="pauseButton" contentDisplay="GRAPHIC_ONLY" layoutX="924.0" layoutY="14.0" mnemonicParsing="false" onAction="#pauseButtonEvent" styleClass="icon-button" text="pause" />
-   </children>
+      </Button>
+   </VBox>
+   <TextArea id="console" fx:id="consoleTextArea" editable="false" layoutX="26.0" layoutY="526.0" prefHeight="99.0"
+             prefWidth="820.0" stylesheets="@style.css" wrapText="true"/>
+   <Button fx:id="rewindButton" contentDisplay="GRAPHIC_ONLY" layoutX="872.0" layoutY="14.0" mnemonicParsing="false"
+           onAction="#rewindEvent" styleClass="icon-button" text="rewind"/>
+   <Button fx:id="saveButton" layoutX="301.0" layoutY="15.0" mnemonicParsing="false" onAction="#saveSceneEvent"
+           text="Save as"/>
+   <Button fx:id="updateButton" layoutX="301.0" layoutY="51.0" mnemonicParsing="false" onAction="#updateSceneEvent"
+           text="Update"/>
+   <Button fx:id="deleteButton" layoutX="385.0" layoutY="51.0" mnemonicParsing="false" onAction="#deleteSceneEvent"
+           text="Delete"/>
+   <TextField fx:id="filenameField" layoutX="362.0" layoutY="14.0" prefHeight="26.0" prefWidth="96.0"/>
+   <Label layoutX="850.0" layoutY="75.0" text="Q = 0.4x, E = min / max" textAlignment="CENTER"/>
+   <Button fx:id="pauseButton" contentDisplay="GRAPHIC_ONLY" layoutX="924.0" layoutY="14.0" mnemonicParsing="false"
+           onAction="#pauseButtonEvent" styleClass="icon-button" text="pause"/>
+   <Label layoutX="628.0" layoutY="10.0" text="CPU Time (microseconds):"/>
+   <Label fx:id="CPUTimeLabelMicro" layoutX="770.0" layoutY="10.0" text="0"/>
+   <Label layoutX="628.0" layoutY="30.0" text="CPU Time (milliseconds):"/>
+   <Label fx:id="CPUTimeLabelMilli" layoutX="770.0" layoutY="30.0" text="0"/>
+   <Label layoutX="628.0" layoutY="50.0" text="Total Time (seconds):"/>
+   <Label fx:id="totalTimeLabelSeconds" layoutX="770.0" layoutY="50.0" text="0"/>
 </AnchorPane>
