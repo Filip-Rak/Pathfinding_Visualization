@@ -1,4 +1,4 @@
-Klasa: 
+Klasa Twojego algorytmu: 
 - musi mieć na końcu nazwy Algorithm
 - musi mieć package kosmo.pathfinding
 - musi implementować Runnable
