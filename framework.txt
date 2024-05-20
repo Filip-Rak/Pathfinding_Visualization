@@ -1,0 +1,56 @@
+Klasa: 
+- musi mieć na końcu nazwy Algorithm
+- musi mieć package kosmo.pathfinding
+- musi implementować Runnable
+- musi mieć metode public void run() z anotacją @Override
+
+Konstruktor: 
+- przyjmuje tablice dwuwymiarową obiektów GridSquare[][], klasa musi sobie gddzieś to zapisać. Rozmiar grida jest pod Scene.GRID_ROWS oraz Scene.GRID_COLUMNS
+
+
+Metoda run:
+- Cały algorytm musi odbywać się w tej metodzie
+- Można w tej metodzie umieszczać kolejne metody w któych będa działy się kolejne rzeczy, ważne by działo się to w funkcji
+- Przykład zagnieżdzenia metody w Test1Algorithm
+- Na poczatku metody run() musi być Execution.get().startPoint(); To ustawia flagi, że algorytm się zaczał
+- Na końcu metody run() ma być Execution.get().stopPoint(); Ustawia flagi, że algorytm się skończył
+
+Na obiektach GridSquare reprezentujących kwadraciki z których stworzony jest grid można wywołać tę metody:
+- square.getState(); - zwraca enum typu State
+- square.setState(State.VISITED); - ustawia stan na to co podamy, lista stanow jest w pliku enum State
+- square.setState(State.VISITED, false); - ustawia stan na to co podamy, lista stanow jest w pliku enum State. Supresuje wydruk do konsoli
+
+Konsola
+- OutputConsole.get().write(text); - wypisuje text do konsoli na dole okienka. Można podawać to samo co do System.out.writeLn();
+- OutputConsole.get().writeLn(text); - to samo ale robi z automatu znak nowej linii na koncu
+- OutputConsole.get().writeSeparator(); - dzieli konsole znakami "-"
+- OutputConsole.get().writeSeparator("-", 10); - to samo, ale argumentem jest konkretny znak i jego długosc
+
+Żeby można było wypatrzeć to co jest zwizualizowane potrzebne jest opóźnienie pomiędzy aktualizacjami elementów, wydrukami w konsoli itp
+Używamy do tego obiektu 
+- Execution.get().Wait(); - ta metoda ogarnia jak długie musi być opóźnienie na podstawie tego jaka jest prędkość w programie itp itd. 
+- Ta metoda powyżej też robi pauze, więc jest giga ważna
+
+
+
+
+Podsumwowanie poleceń:
+Klasa Scene:
+ - Scene.GRID_COLUMNS; - zwraca inta, ilosc kolumn
+ - Scene.GRID_ROWS; - zwraca inta, ilosc wierszy
+
+Klasa GridSquare:
+- getState(); - zwraca enum typu State
+- setState(State.VISITED); - ustawia stan na to co podamy, lista stanow jest w pliku enum State
+- setState(State.VISITED, false); - ustawia stan na to co podamy, lista stanow jest w pliku enum State. Supresuje wydruk do konsoli
+
+Singleton Execution:
+- Execution.get().startPoint(); - ustawia flagi, ze jest poczatek algorytmu
+- Execution.get().stopPoint(); - ustawia flagi, ze jest koniec algorytmu
+- Execution.get().Wait(); - zarzadza predkoscia wizualizacji i pauza
+
+Singleton OutputConsole:
+- OutputConsole.get().write(text); - wypisuje text do konsoli na dole okienka. Można podawać to samo co do System.out.writeLn();
+- OutputConsole.get().writeLn(text); - to samo ale robi z automatu znak nowej linii na koncu
+- OutputConsole.get().writeSeparator(); - dzieli konsole znakami "-"
+- OutputConsole.get().writeSeparator("-", 10); - to samo, ale argumentem jest konkretny znak i jego długosc

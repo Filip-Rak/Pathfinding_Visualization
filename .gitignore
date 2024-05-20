@@ -3,6 +3,8 @@
 #Except ignore
 !.gitignore
 
+!framework.txt
+
 # Except pom.xml
 !pom.xml
 
