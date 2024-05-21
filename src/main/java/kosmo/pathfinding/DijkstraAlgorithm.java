@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 public class DijkstraAlgorithm implements Runnable
 {
-    // Attributes // I HAVE TURTLES
+    // Attributes
     private final GridSquare[][] gridSquares;
     private final int rows;
     private final int cols;
