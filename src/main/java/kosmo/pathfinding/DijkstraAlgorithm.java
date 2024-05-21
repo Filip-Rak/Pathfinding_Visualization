@@ -136,6 +136,7 @@ public class DijkstraAlgorithm implements Runnable
             }
         }
 
+        int pathLength = 0;
         if (pathFound)
         {
             // Trace back the path
@@ -144,6 +145,7 @@ public class DijkstraAlgorithm implements Runnable
             while (pathX != startX || pathY != startY)
             {
                 gridSquares[pathX][pathY].setState(State.PATH, true);
+                pathLength++;
                 Execution.get().Wait();
 
                 for (int i = 0; i < 4; i++)
@@ -168,6 +170,6 @@ public class DijkstraAlgorithm implements Runnable
         }
 
         // Tells the app that the algorithm finished working and the grid can be refreshed
-        Execution.get().stopPoint();
+        Execution.get().stopPoint(pathLength);
     }
 }
