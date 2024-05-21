@@ -263,6 +263,7 @@ public class RootController
             case TEST1 -> new Thread(new Test1Algorithm(displayGrid));
             case TEST2 -> new Thread(new Test2Algorithm(displayGrid));
             case DIJKSTRA ->  new Thread(new DijkstraAlgorithm(displayGrid));
+            case ASTAR -> new Thread(new AstarAlgorithm(displayGrid));
         };
         
         algorithmThread.start();
@@ -440,6 +441,7 @@ public class RootController
             case TEST1 -> t1;
             case TEST2 -> t2;
             case DIJKSTRA -> t1;
+            case ASTAR -> t1;
         };
     }
 
