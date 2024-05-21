@@ -33,6 +33,7 @@ public class RootController
     @FXML private Label CPUTimeLabelMicro;
     @FXML private Label CPUTimeLabelMilli;
     @FXML private Label totalTimeLabelSeconds;
+    @FXML private Label pathLengthLabel;
 
     // Scenes
     @FXML private Button saveButton;
@@ -154,7 +155,7 @@ public class RootController
     private void initializeExecution()
     {
         Execution.get().setSpeedText(speedLabel);
-        Execution.get().setCPUTimeLabels(CPUTimeLabelMicro, CPUTimeLabelMilli, totalTimeLabelSeconds);
+        Execution.get().setLabels(CPUTimeLabelMicro, CPUTimeLabelMilli, totalTimeLabelSeconds, pathLengthLabel);
         Execution.get().setRewindButton(rewindButton, syncIcon);
         Execution.get().setSpeed(1);
     }

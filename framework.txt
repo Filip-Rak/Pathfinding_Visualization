@@ -13,7 +13,8 @@ Metoda run:
 - Można w tej metodzie umieszczać kolejne metody w któych będa działy się kolejne rzeczy, ważne by działo się to w funkcji
 - Przykład zagnieżdzenia metody w Test1Algorithm
 - Na poczatku metody run() musi być Execution.get().startPoint(); To ustawia flagi, że algorytm się zaczał
-- Na końcu metody run() ma być Execution.get().stopPoint(); Ustawia flagi, że algorytm się skończył
+- Na końcu metody run() ma być Execution.get().stopPoint(int); Ustawia flagi, że algorytm się skończył i bierze dlugosc sciezki do wyswietlenia
+- Na końcu metody run() ma być Execution.get().stopPoint(); To samo ale defaultowo dlugosc sciezki to 0
 
 Na obiektach GridSquare reprezentujących kwadraciki z których stworzony jest grid można wywołać tę metody:
 - square.getState(); - zwraca enum typu State

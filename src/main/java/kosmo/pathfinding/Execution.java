@@ -29,8 +29,10 @@ public class Execution implements Runnable
     private Label CPUTimeMicro;
     private Label CPUTimeMilli;
     private Label totalTimeLabelSeconds;
+    private Label pathLengthLabel;
     private Button rewindButton;
     private FontIcon syncIcon;
+    int pathLength = 0;
 
     // Singleton
     private static Execution instance;
@@ -88,6 +90,7 @@ public class Execution implements Runnable
         Platform.runLater(()-> CPUTimeMicro.setText(Long.toString(elapsedTimeMicro)));
         Platform.runLater(()-> CPUTimeMilli.setText(Long.toString(elapsedTimeMilli)));
         Platform.runLater(()-> totalTimeLabelSeconds.setText(Long.toString(elapsedTimeTotalSeconds)));
+        Platform.runLater(()-> pathLengthLabel.setText(Integer.toString(pathLength)));
     }
 
     // Setters
@@ -124,15 +127,22 @@ public class Execution implements Runnable
         this.syncIcon = icon;
     }
 
-    public void stopPoint()
+    public void stopPoint(int length)
     {
         this.isRunning = false;
+        this.pathLength = length;
+
         run();
 
-        System.out.print("Total: " +  (System.nanoTime() - beginTime));
-        System.out.print("\tWait: " +  (totalWaitDuration));
-        System.out.print("\tCPU: " +  ((System.nanoTime() - beginTime) - (totalWaitDuration)));
-        System.out.println("\tCPU (millis): " +  ((System.nanoTime() - beginTime) - (totalWaitDuration)) / 1000000000);
+        //System.out.print("Total: " +  (System.nanoTime() - beginTime));
+        //System.out.print("\tWait: " +  (totalWaitDuration));
+        //System.out.print("\tCPU: " +  ((System.nanoTime() - beginTime) - (totalWaitDuration)));
+        //System.out.println("\tCPU (millis): " +  ((System.nanoTime() - beginTime) - (totalWaitDuration)) / 1000000000);
+    }
+
+    public void stopPoint()
+    {
+        stopPoint(0);
     }
 
     public void setSpeedText(Label speedLabel)
@@ -150,11 +160,12 @@ public class Execution implements Runnable
         isRefreshed = refreshed;
     }
 
-    public void setCPUTimeLabels(Label micro, Label milli, Label total)
+    public void setLabels(Label micro, Label milli, Label total, Label pathLength)
     {
         this.CPUTimeMicro = micro;
         this.CPUTimeMilli = milli;
         this.totalTimeLabelSeconds = total;
+        this.pathLengthLabel = pathLength;
     }
 
     // Getters
@@ -171,11 +182,6 @@ public class Execution implements Runnable
     public double getMaxSpeed()
     {
         return MAX_SPEED;
-    }
-
-    public double getMinSpeed()
-    {
-        return MIN_SPEED;
     }
 
     public double getSpeed()
