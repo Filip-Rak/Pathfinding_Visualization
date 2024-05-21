@@ -30,7 +30,7 @@ public class RootController
 
     // Execution
     @FXML private Label speedLabel;
-    @FXML private Label CPUTimeLabelMicro;
+    @FXML private Label CPUTimeLabelNano;
     @FXML private Label CPUTimeLabelMilli;
     @FXML private Label totalTimeLabelSeconds;
     @FXML private Label pathLengthLabel;
@@ -155,7 +155,7 @@ public class RootController
     private void initializeExecution()
     {
         Execution.get().setSpeedText(speedLabel);
-        Execution.get().setLabels(CPUTimeLabelMicro, CPUTimeLabelMilli, totalTimeLabelSeconds, pathLengthLabel);
+        Execution.get().setLabels(CPUTimeLabelNano, CPUTimeLabelMilli, totalTimeLabelSeconds, pathLengthLabel);
         Execution.get().setRewindButton(rewindButton, syncIcon);
         Execution.get().setSpeed(1);
     }
@@ -365,6 +365,9 @@ public class RootController
             // Set icons
             rewindButton.setGraphic(playIcon);
             pauseButton.setGraphic(playCircleIcon);
+
+            // Set labels
+            pathLengthLabel.setText("0");
         }
 
     }

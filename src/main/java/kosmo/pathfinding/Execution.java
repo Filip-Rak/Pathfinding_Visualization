@@ -26,7 +26,7 @@ public class Execution implements Runnable
 
     // External elements
     private Label speedLabel;
-    private Label CPUTimeMicro;
+    private Label CPUTimeNano;
     private Label CPUTimeMilli;
     private Label totalTimeLabelSeconds;
     private Label pathLengthLabel;
@@ -51,16 +51,15 @@ public class Execution implements Runnable
 
     public void Wait()
     {
-        long startTime = System.currentTimeMillis();
-        long startTimeNano = System.nanoTime();
+        long startWait = System.nanoTime();
         long waitedTime = 0;
 
         try
         {
             while ((waitedTime < timeToWait || paused) && !ceaseExecution && isRunning)
             {
-                Thread.sleep(10);  // Sleep for short intervals to remain responsive
-                waitedTime = System.currentTimeMillis() - startTime;
+                Thread.sleep(10);  // Sleep for shorter intervals to remain responsive
+                waitedTime = (System.nanoTime() - startWait) / 1_000_000;  // Convert nanoseconds to milliseconds
 
                 // Break will happen if the speed is decreased far enough
                 if ((!paused && (timeToWait - waitedTime < 0)) || ceaseExecution) break;
@@ -71,7 +70,8 @@ public class Execution implements Runnable
             System.out.println("Waiting was interrupted.");
         }
 
-        totalWaitDuration += (System.nanoTime() - startTimeNano);
+        long stopWait = System.nanoTime();
+        totalWaitDuration += (stopWait - startWait);
 
         run();
     }
@@ -79,18 +79,20 @@ public class Execution implements Runnable
     @Override
     public void run()
     {
-        if(!isRunning) Platform.runLater(() -> this.rewindButton.setGraphic(syncIcon));
+        if (!isRunning) {
+            Platform.runLater(() -> this.rewindButton.setGraphic(syncIcon));
+        }
 
         // Perform the time calculation
-        long elapsedTimeMicro = ((System.nanoTime() - beginTime) - totalWaitDuration) / 1000;
-        long elapsedTimeMilli = ((System.nanoTime() - beginTime) - totalWaitDuration) / 1000000000;
-        long elapsedTimeTotalSeconds = ((System.nanoTime() - beginTime)) / 1000000000;
+        long elapsedTimeNano = (System.nanoTime() - beginTime) - totalWaitDuration;
+        long elapsedTimeMilli = elapsedTimeNano / 1_000_000;  // Convert nanoseconds to milliseconds
+        long elapsedTimeTotalSeconds = (System.nanoTime() - beginTime) / 1_000_000_000;  // Convert nanoseconds to seconds
 
         // Pass to the method
-        Platform.runLater(()-> CPUTimeMicro.setText(Long.toString(elapsedTimeMicro)));
-        Platform.runLater(()-> CPUTimeMilli.setText(Long.toString(elapsedTimeMilli)));
-        Platform.runLater(()-> totalTimeLabelSeconds.setText(Long.toString(elapsedTimeTotalSeconds)));
-        Platform.runLater(()-> pathLengthLabel.setText(Integer.toString(pathLength)));
+        Platform.runLater(() -> CPUTimeNano.setText(Long.toString(elapsedTimeNano)));
+        Platform.runLater(() -> CPUTimeMilli.setText(Long.toString(elapsedTimeMilli)));
+        Platform.runLater(() -> totalTimeLabelSeconds.setText(Long.toString(elapsedTimeTotalSeconds)));
+        Platform.runLater(() -> pathLengthLabel.setText(Integer.toString(pathLength)));
     }
 
     // Setters
@@ -119,6 +121,7 @@ public class Execution implements Runnable
 
         this.totalWaitDuration = 0;
         this.beginTime = System.nanoTime();
+        this.pathLength = 0;
     }
 
     public void setRewindButton(Button rewindButton, FontIcon icon)
@@ -162,7 +165,7 @@ public class Execution implements Runnable
 
     public void setLabels(Label micro, Label milli, Label total, Label pathLength)
     {
-        this.CPUTimeMicro = micro;
+        this.CPUTimeNano = micro;
         this.CPUTimeMilli = milli;
         this.totalTimeLabelSeconds = total;
         this.pathLengthLabel = pathLength;
