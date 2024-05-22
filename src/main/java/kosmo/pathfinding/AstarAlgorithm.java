@@ -38,16 +38,20 @@ public class AstarAlgorithm implements Runnable {
         }
 
         public void setCost(Node start, Node finish) {
-           // this.cost = Math.pow(this.x - finish.x, 2) + Math.pow(this.y - finish.y, 2) ;
-            double px = Math.abs(start.x - finish.x);
-            double py = Math.abs(start.y - finish.y);
-            if(px != 0 && py != 0)
-                this.cost = Math.pow(this.x - finish.x, 2)/px + Math.pow(this.y - finish.y, 2)/py;
-            else
-                this.cost= Math.pow(this.x - finish.x, 2) + Math.pow(this.y - finish.y, 2);
-           // this.cost = Math.max(this.x - finish.x+this.y - start.y, this.x - start.x+this.y - finish.y);
-        }
+//            double px = Math.abs(start.x - finish.x);
+//            double py = Math.abs(start.y - finish.y);
+//            if(px != 0 && py != 0)
+//                this.cost = Math.pow(this.x - finish.x, 2)/px + Math.pow(this.y - finish.y, 2)/py;
+//            else
+            this.cost= Math.min(Math.abs(this.x-start.x),Math.abs(this.y-start.y));
+            this.cost+= Math.sqrt(Math.pow(this.x-finish.x,2)+Math.pow(this.y-finish.y,2));
 
+
+        }
+//        public void setCost( Node startNode, Node finishNode, double h_val) {
+//
+//            this.cost = (double) Math.abs(startNode.x - this.x)/  + (double) Math.abs(startNode.y - this.y)  +h_val;
+//        }
         public double getCost() {
             return cost;
         }
@@ -72,7 +76,7 @@ public class AstarAlgorithm implements Runnable {
         {
             for (int j = 0; j < cols; j++) {
                 if (gridSquares[i][j].getState() == ORIGIN) {
-                    tab_pos[i][j] = 1;
+                    tab_pos[i][j] = 2;
                     startNode = new Node(j, i, null);
                 }
                 else if( gridSquares[i][j].getState() == DESTINATION){
@@ -80,7 +84,7 @@ public class AstarAlgorithm implements Runnable {
                     lastNode = new Node(j, i, null);
                 }
                 else if (gridSquares[i][j].getState() == OBSTACLE){
-                    tab_pos[i][j] = 1;
+                    tab_pos[i][j] = 2;
                 }
                 else {
                     tab_pos[i][j] = 0;
@@ -106,15 +110,14 @@ public class AstarAlgorithm implements Runnable {
             if(tochk.get(i).x > -1 && tochk.get(i).y > -1 && tochk.get(i).x < cols && tochk.get(i).y < rows ){
                 if(tab_pos[tochk.get(i).y][tochk.get(i).x] == 10)
                 {
-                    lastNode.prev = tochk.get(i);
+                    lastNode.prev = startNode;
                     foundPath = true;
-                    break;
                 }
                 else if(tab_pos[tochk.get(i).y][tochk.get(i).x] == 0){
                     gridSquares[tochk.get(i).y][tochk.get(i).x].setState(FRONTIER);
                     tab_pos[tochk.get(i).y][tochk.get(i).x] = 1;
                     Execution.get().Wait();
-                    tochk.get(i).setCost(startNode, lastNode);
+                    tochk.get(i).setCost(startNode,lastNode);
                 }
                 else {
                     tochk.remove(i);
@@ -129,7 +132,7 @@ public class AstarAlgorithm implements Runnable {
         }
 
 
-        System.out.println(lastNode);
+        //System.out.println(lastNode);
         while(!foundPath)
         {
             tochk.sort(Comparator.comparing(Node::getCost));
@@ -148,21 +151,25 @@ public class AstarAlgorithm implements Runnable {
                 if(tab_pos[y][x-1] == 0){
                     tochk.add(new Node(x-1,y,tochk.getFirst()));
                     tochk.getLast().setCost(startNode,lastNode);
-
+//                    tochk.getLast().setCost(startNode,
+//                            Math.pow(tochk.getLast().x - lastNode.x,2) + Math.pow(tochk.getLast().y- lastNode.y,2)
+//                    );
                     gridSquares[y][x-1].setState(FRONTIER);
                     tab_pos[y][x-1] = 1;
                     Execution.get().Wait();
-                } else if (tab_pos[y][x-1] == 10)
+                }
+                else if (tab_pos[y][x-1] == 10)
                 {
                     lastNode.setPrev(tochk.getFirst());
                     foundPath = true;
-                    break;
+
                 }
             if( x != cols-1 )
                 if( tab_pos[y][x+1] == 0){
                     tochk.add(new Node(x+1,y,tochk.getFirst()));
                     tochk.getLast().setCost(startNode,lastNode);
-
+//                    tochk.getLast().setCost(startNode,Math.pow(tochk.getLast().x - lastNode.x,2)
+//                            + Math.pow(tochk.getLast().y- lastNode.y,2));
                     gridSquares[y][x+1].setState(FRONTIER);
                     tab_pos[y][x+1] = 1;
                     Execution.get().Wait();
@@ -170,13 +177,14 @@ public class AstarAlgorithm implements Runnable {
                 {
                     lastNode.setPrev(tochk.getFirst());
                     foundPath = true;
-                    break;
+
                 }
             if( y != 0 )
                 if(tab_pos[y-1][x] == 0){
                     tochk.add(new Node(x,y-1,tochk.getFirst()));
                     tochk.getLast().setCost(startNode,lastNode);
-
+//                    tochk.getLast().setCost(startNode,Math.pow(tochk.getLast().x - lastNode.x,2)
+//                            + Math.pow(tochk.getLast().y- lastNode.y,2));
                     gridSquares[y-1][x].setState(FRONTIER);
                     tab_pos[y-1][x]= 1;
                     Execution.get().Wait();
@@ -184,27 +192,30 @@ public class AstarAlgorithm implements Runnable {
                 {
                     lastNode.setPrev(tochk.getFirst());
                     foundPath = true;
-                    break;
+
                 }
             if( y !=rows-1 )
                 if(tab_pos[y+1][x] == 0){
                     tochk.add(new Node(x,y+1,tochk.getFirst()));
                     tochk.getLast().setCost(startNode,lastNode);
-
+//                    tochk.getLast().setCost(startNode,Math.pow(tochk.getLast().x - lastNode.x,2)
+//                            + Math.pow(tochk.getLast().y- lastNode.y,2));
                     gridSquares[y+1][x].setState(FRONTIER);
                     tab_pos[y+1][x] = 1;
                     Execution.get().Wait();
                 }
+
                 else if (tab_pos[y+1][x] == 10)
                 {
                     lastNode.setPrev(tochk.getFirst());
                     foundPath = true;
-                    break;
+
                 }
             tochk.removeFirst();
-            //Execution.get().Wait();
+
         }
         int i = 0;
+        Node tmp = lastNode;
         if (foundPath)
         {
             while(lastNode != null)
@@ -215,6 +226,8 @@ public class AstarAlgorithm implements Runnable {
                 lastNode = lastNode.prev;
             }
         }
+        gridSquares[tmp.y][tmp.x].setState(DESTINATION);
+        gridSquares[startNode.y][startNode.x].setState(ORIGIN);
         Execution.get().stopPoint(i);
     }
 }
