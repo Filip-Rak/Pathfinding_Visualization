@@ -338,14 +338,12 @@ public class RootController
 
     @FXML private void rewindEvent()
     {
-        if(Execution.get().isRunning())
+        if(Execution.get().isRunning()) // Wrap up
         {
-            // Wrap up
             Execution.get().ceaseExecution();
         }
-        else if(Execution.get().isRefreshed())
+        else if(Execution.get().isRefreshed())  // Start up
         {
-            // Start up
             Execution.get().setPaused(false);
             startSimulation();
 
@@ -358,9 +356,9 @@ public class RootController
             rewindButton.setGraphic(stopIcon);
             pauseButton.setGraphic(pauseCircleIcon);
         }
-        else
+        else    // Refresh
         {
-            // Refresh
+            // Reload scene
             resetAlgorithmAndScene();
 
             // Set icons
@@ -369,6 +367,9 @@ public class RootController
 
             // Set labels
             pathLengthLabel.setText("0");
+            CPUTimeLabelNano.setText("0");
+            CPUTimeLabelMilli.setText("0");
+            totalTimeLabelSeconds.setText("0");
         }
 
     }
