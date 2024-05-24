@@ -194,7 +194,7 @@ public class RootController
 
     private void initializeDescription()
     {
-        algorithmTextArea.setText(algorithmDescription(currentAlgorithm));
+        algorithmTextArea.setText(currentAlgorithm.getDescription());
     }
 
     // Listeners
@@ -258,15 +258,16 @@ public class RootController
     // Simulation Running
     public void startSimulation()
     {
-        Thread algorithmThread = switch (currentAlgorithm)
+        try
         {
-            case TEST1 -> new Thread(new Test1Algorithm(displayGrid));
-            case TEST2 -> new Thread(new Test2Algorithm(displayGrid));
-            case DIJKSTRA ->  new Thread(new DijkstraAlgorithm(displayGrid));
-            case ASTAR -> new Thread(new AstarAlgorithm(displayGrid));
-        };
-        
-        algorithmThread.start();
+            Runnable algorithm = currentAlgorithm.createInstance(displayGrid);
+            Thread algorithmThread = new Thread(algorithm);
+            algorithmThread.start();
+        }
+        catch (RuntimeException e)
+        {
+            System.err.println("Error starting simulation: " + e.getMessage());
+        }
     }
 
     // Paint Wand
@@ -428,22 +429,7 @@ public class RootController
         Execution.get().setRefreshed(true);
         OutputConsole.get().writeLn("Ready to reset the scene");
         setScene(scenes.get(sceneNames.indexOf(currentScene)));
-        algorithmTextArea.setText(algorithmDescription(currentAlgorithm));
-    }
-
-    private String algorithmDescription(Algorithm currentAlgorithm)
-    {
-        // Descriptions
-        String t1 = "TEST1\nComplexity: 10/10\nPerformance: 0";
-        String t2 = "TEST2\nAuthor: Monkey\nWorks: yes";
-
-        return switch(currentAlgorithm)
-        {
-            case TEST1 -> t1;
-            case TEST2 -> t2;
-            case DIJKSTRA -> t1;
-            case ASTAR -> t1;
-        };
+        algorithmTextArea.setText(currentAlgorithm.getDescription());
     }
 
     private void setScene(Scene sceneToSet)
