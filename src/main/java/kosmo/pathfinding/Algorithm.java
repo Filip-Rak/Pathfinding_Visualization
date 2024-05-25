@@ -15,7 +15,10 @@ public enum Algorithm
             AstarAlgorithm.class,
             "A*'s description"
     ),
-
+    GFB(
+            GFBAlgorithm.class,
+            "Gready first best algorithm with smoothed line"
+    ),
     TEST1(
             Test1Algorithm.class,
             "Test 1 description"
