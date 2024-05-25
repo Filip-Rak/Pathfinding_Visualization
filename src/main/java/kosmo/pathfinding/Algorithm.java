@@ -19,6 +19,10 @@ public enum Algorithm
             GFBAlgorithm.class,
             "\"Greedy first best\""
     ),
+    DFS(
+            DFSAlgorithm.class,
+            "Depth-First Search algorithm implementation"
+    ),
     TEST1(
             Test1Algorithm.class,
             "Test 1 description"
