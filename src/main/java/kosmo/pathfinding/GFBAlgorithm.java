@@ -79,10 +79,6 @@ public class GFBAlgorithm implements Runnable {
         double scalary = Math.abs(startNode.y - lastNode.y );
         while(!open.isEmpty() && !foundPath)
         {
-
-            //System.out.println("--------------");
-            //open.forEach(System.out::println);
-
             Node q = open.poll();
             if(q==null)
                 break;
@@ -92,22 +88,14 @@ public class GFBAlgorithm implements Runnable {
 
             ArrayList<Node> tochk = new ArrayList<>();
             if(q.x+1 != cols)
-                if(types[q.y][q.x+1] != 5){
+                if(types[q.y][q.x+1] != 5)
                     tochk.add(new Node(q.x+1,q.y,q));
-
-                }
-
             if(q.x-1 != -1)
                 if(types[q.y][q.x-1] != 5)
                     tochk.add(new Node(q.x-1,q.y,q));
-
-
-
             if(q.y+1 != rows)
                 if(types[q.y+1][q.x] != 5)
                     tochk.add(new Node(q.x,q.y+1,q));
-
-
             if(q.y-1 != -1)
                 if(types[q.y-1][q.x] != 5)
                     tochk.add(new Node(q.x,q.y-1,q));
@@ -125,7 +113,7 @@ public class GFBAlgorithm implements Runnable {
                 //tonode.h = Math.abs(tonode.x - lastNode.x)  + Math.abs(tonode.y - lastNode.y) ;
                 //Approximate of Heuristic distance, based on "Manhattan Distance" method
                 tonode.h = Math.pow(tonode.x - lastNode.x,2)/scalarx  + Math.pow(tonode.y - lastNode.y,2)/scalary;
-                //Approximate of Heuristic distance, based on real distance from node to DESTINATION
+                //Approximate of Heuristic distance, based on real distance from node to DESTINATION, division for smoother line
 
                 boolean was = false;
                 for(Node toopen: open)
