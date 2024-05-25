@@ -3,7 +3,7 @@ package kosmo.pathfinding;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DFSAlgorithm implements Runnable
+public class DFSRecursiveAlgorithm implements Runnable
 {
     private final GridSquare[][] gridSquares;
     private final int rows;
@@ -11,7 +11,7 @@ public class DFSAlgorithm implements Runnable
     private final GridSquare[][] parent;
 
     // Constructor
-    public DFSAlgorithm(GridSquare[][] gridSquares)
+    public DFSRecursiveAlgorithm(GridSquare[][] gridSquares)
     {
         this.gridSquares = gridSquares;
         this.rows = Scene.GRID_ROWS;
@@ -91,7 +91,7 @@ public class DFSAlgorithm implements Runnable
             {
                 parent[nRow][nCol] = gridSquares[row][col];
                 neighbor.setState(State.FRONTIER);
-                Execution.get().Wait();  // Add a delay for visualization
+                Execution.get().Wait();
 
                 if (DFSPathFinder(nRow, nCol, endX, endY, visited))
                 {
@@ -115,8 +115,8 @@ public class DFSAlgorithm implements Runnable
             current = parent[current.getRow()][current.getCol()];
         }
 
-        gridSquares[startX][startY].setState(State.ORIGIN, true);
-        gridSquares[endX][endY].setState(State.DESTINATION, true);
+        gridSquares[startX][startY].setState(State.ORIGIN);
+        gridSquares[endX][endY].setState(State.DESTINATION);
     }
 
     private List<GridSquare> getNeighbors(GridSquare square)
@@ -125,10 +125,10 @@ public class DFSAlgorithm implements Runnable
         int row = square.getRow();
         int col = square.getCol();
 
-        if (row > 0) neighbors.add(gridSquares[row - 1][col]);
-        if (row < rows - 1) neighbors.add(gridSquares[row + 1][col]);
-        if (col > 0) neighbors.add(gridSquares[row][col - 1]);
-        if (col < cols - 1) neighbors.add(gridSquares[row][col + 1]);
+        if (row > 0) neighbors.add(gridSquares[row - 1][col]); // Up
+        if (row < rows - 1) neighbors.add(gridSquares[row + 1][col]); // Down
+        if (col > 0) neighbors.add(gridSquares[row][col - 1]); // Left
+        if (col < cols - 1) neighbors.add(gridSquares[row][col + 1]); // Right
 
         return neighbors;
     }

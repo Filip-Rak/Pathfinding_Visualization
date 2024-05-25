@@ -19,9 +19,13 @@ public enum Algorithm
             GFBAlgorithm.class,
             "\"Greedy first best\""
     ),
-    DFS(
-            DFSAlgorithm.class,
-            "Depth-First Search algorithm implementation"
+    DFS_RECURSIVE(
+            DFSRecursiveAlgorithm.class,
+            "Depth-First Search algorithm recursive implementation"
+    ),
+    DFS_ITERATIVE(
+            DFSIterativeAlgorithm.class,
+            "Depth-First Search algorithm iterative implementation"
     ),
     TEST1(
             Test1Algorithm.class,
