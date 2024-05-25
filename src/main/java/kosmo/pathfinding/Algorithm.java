@@ -11,8 +11,8 @@ public enum Algorithm
             "Dijkstra's description"
     ),
 
-    A_STAR(
-            AstarAlgorithm.class,
+    Greedy_First_Best(
+            GFBAlgorithm.class,
             "A*'s description"
     ),
 
