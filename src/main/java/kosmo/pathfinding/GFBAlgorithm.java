@@ -6,11 +6,11 @@ import java.util.List;
 
 import static kosmo.pathfinding.State.*;
 
-public class AstarAlgorithm implements Runnable {
+public class GFBAlgorithm implements Runnable {
     private final GridSquare[][] gridSquares;
     private final int rows;
     private final int cols;
-    public AstarAlgorithm(GridSquare[][] gridSquares)
+    public GFBAlgorithm(GridSquare[][] gridSquares)
     {
         this.gridSquares = gridSquares;
         this.rows = Scene.GRID_ROWS;
