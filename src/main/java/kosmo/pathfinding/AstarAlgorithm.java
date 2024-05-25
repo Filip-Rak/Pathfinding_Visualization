@@ -4,11 +4,11 @@ import java.util.*;
 
 import static kosmo.pathfinding.State.*;
 
-public class GFBAlgorithm implements Runnable {
+public class AstarAlgorithm implements Runnable {
     private final GridSquare[][] gridSquares;
     private final int rows;
     private final int cols;
-    public GFBAlgorithm(GridSquare[][] gridSquares)
+    public AstarAlgorithm(GridSquare[][] gridSquares)
     {
         this.gridSquares = gridSquares;
         this.rows = Scene.GRID_ROWS;
@@ -17,9 +17,9 @@ public class GFBAlgorithm implements Runnable {
     private static class Node implements Comparable<Node>
     {
         int x, y;
-
+        double q = 0;
         double h = 0;
-
+        double f = 0;
         Node prev ;
         Node(int x, int y, Node prev)
         {
@@ -30,12 +30,12 @@ public class GFBAlgorithm implements Runnable {
 
         @Override
         public String toString() {
-            return "( x: " +x+ "; y: "+ y+ "; f: "+h+" )";
+            return "( x: " +x+ "; y: "+ y+ "; f: "+f+" )";
         }
 
         @Override
         public int compareTo(Node o) {
-            return (int)(this.h - o.h);
+            return (int)(this.f - o.f);
         }
     }
     @Override
@@ -71,17 +71,15 @@ public class GFBAlgorithm implements Runnable {
             return;
         }
 
-        PriorityQueue<Node> open = new PriorityQueue<>(Comparator.comparingDouble(node -> node.h));
+        PriorityQueue<Node> open = new PriorityQueue<>(Comparator.comparingDouble(node -> node.f));
         open.add(startNode);
 
         boolean foundPath = false;
-        double scalarx = Math.abs(startNode.x - lastNode.x );
-        double scalary = Math.abs(startNode.y - lastNode.y );
         while(!open.isEmpty() && !foundPath)
         {
 
-            //System.out.println("--------------");
-            //open.forEach(System.out::println);
+            System.out.println("--------------");
+            open.forEach(System.out::println);
 
             Node q = open.poll();
             if(q==null)
@@ -120,20 +118,22 @@ public class GFBAlgorithm implements Runnable {
                 }
                 if(types[tonode.y][tonode.x] == 1)
                     continue;
-
+                tonode.q = q.q +0.5;
                 // 0.5 == distance between one grid to next, never on a diagonal axis
-                //tonode.h = Math.abs(tonode.x - lastNode.x)  + Math.abs(tonode.y - lastNode.y) ;
+                tonode.h = Math.abs(tonode.x - lastNode.x)  + Math.abs(tonode.y - lastNode.y) ;
                 //Approximate of Heuristic distance, based on "Manhattan Distance" method
-                tonode.h = Math.pow(tonode.x - lastNode.x,2)/scalarx  + Math.pow(tonode.y - lastNode.y,2)/scalary;
+                //tonode.h = Math.sqrt(Math.pow(tonode.x - lastNode.x,2)  + Math.pow(tonode.y - lastNode.y,2) );
                 //Approximate of Heuristic distance, based on real distance from node to DESTINATION
-
+                tonode.f = tonode.q + tonode.h;
                 boolean was = false;
                 for(Node toopen: open)
                 {
                     if(toopen.x == tonode.x && toopen.y == tonode.y)
                     {
-                        if(tonode.h < toopen.h)
+                        if(tonode.f < toopen.f)
                         {
+                            toopen.f = tonode.f;
+                            toopen.q = tonode.q;
                             toopen.h = tonode.h;
                             toopen.prev = q;
                         }
