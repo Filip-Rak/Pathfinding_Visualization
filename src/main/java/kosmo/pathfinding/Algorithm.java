@@ -17,7 +17,7 @@ public enum Algorithm
     ),
     GFB(
             GFBAlgorithm.class,
-            "Gready first best algorithm with smoothed line"
+            "\"Greedy first best\""
     ),
     TEST1(
             Test1Algorithm.class,

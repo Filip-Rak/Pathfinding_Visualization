@@ -154,6 +154,7 @@ public class AstarAlgorithm implements Runnable {
         {
             i++;
             gridSquares[lastNode.y][lastNode.x].setState(PATH);
+            Execution.get().Wait();
             lastNode = lastNode.prev;
         }
         gridSquares[startNode.y][startNode.x].setState(ORIGIN);
