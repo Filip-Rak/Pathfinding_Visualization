@@ -25,7 +25,7 @@
    </Label>
    <ChoiceBox fx:id="sceneChoiceBox" layoutX="130.0" layoutY="14.0" prefWidth="150.0" />
    <ChoiceBox fx:id="algorithmChoiceBox" layoutX="130.0" layoutY="52.0" prefWidth="150.0" />
-   <TextArea fx:id="algorithmTextArea" editable="false" layoutX="464.0" layoutY="14.0" prefHeight="71.0" prefWidth="150.0" />
+   <TextArea id="algorithmInfo" fx:id="algorithmTextArea" editable="false" layoutX="464.0" layoutY="14.0" prefHeight="71.0" prefWidth="150.0" stylesheets="@style.css" />
    <Button fx:id="decreaseSpeedButton" contentDisplay="GRAPHIC_ONLY" layoutX="836.0" layoutY="51.0" mnemonicParsing="false" onAction="#decreaseSpeedEvent" styleClass="icon-button" text="-" />
    <Button fx:id="increaseSpeedButton" contentDisplay="GRAPHIC_ONLY" layoutX="964.0" layoutY="51.0" mnemonicParsing="false" onAction="#increaseSpeedEvent" styleClass="icon-button" text="+" />
    <Label layoutX="865.0" layoutY="50.0" text="Speed:">
