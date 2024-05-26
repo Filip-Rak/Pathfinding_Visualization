@@ -91,3 +91,9 @@ label{
     -fx-padding: 0;  /* Ensures no extra padding on labels */
     -fx-margin: 0;
 }
+
+#algorithmInfo{
+    -fx-text-alignment: justify;
+    -fx-wrap-text: true;
+    -fx-hbar-policy: never;
+}
