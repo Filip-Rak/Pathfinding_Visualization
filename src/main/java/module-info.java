@@ -1,4 +1,5 @@
-module kosmo.pathfinding {
+module kosmo.pathfinding
+{
     requires javafx.controls;
     requires javafx.fxml;
 
@@ -9,4 +10,10 @@ module kosmo.pathfinding {
 
     opens kosmo.pathfinding to javafx.fxml;
     exports kosmo.pathfinding;
+    exports kosmo.pathfinding.algorithm;
+    opens kosmo.pathfinding.algorithm to javafx.fxml;
+    exports kosmo.pathfinding.framework;
+    opens kosmo.pathfinding.framework to javafx.fxml;
+    exports kosmo.pathfinding.window;
+    opens kosmo.pathfinding.window to javafx.fxml;
 }

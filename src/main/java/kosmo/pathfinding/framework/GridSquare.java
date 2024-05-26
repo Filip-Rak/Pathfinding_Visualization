@@ -1,10 +1,12 @@
-package kosmo.pathfinding;
+package kosmo.pathfinding.framework;
 
 import javafx.application.Platform;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import kosmo.pathfinding.window.OutputConsole;
+import kosmo.pathfinding.window.PaintWand;
 
 public class GridSquare
 {
@@ -16,7 +18,7 @@ public class GridSquare
     private Color color;
 
     // Constructors
-    GridSquare(Rectangle rectangle, int row, int col)
+    public GridSquare(Rectangle rectangle, int row, int col)
     {
         this.ROW = row;
         this.COL = col;
@@ -28,7 +30,7 @@ public class GridSquare
         color = Color.LIGHTGRAY;
     }
 
-    GridSquare(GridSquare gridSquare)
+    public GridSquare(GridSquare gridSquare)
     {
         this.ROW = gridSquare.getRow();
         this.COL = gridSquare.getCol();
@@ -127,11 +129,6 @@ public class GridSquare
     public State getState()
     {
         return state;
-    }
-
-    public Color getColor()
-    {
-        return color;
     }
 
     public int getRow()

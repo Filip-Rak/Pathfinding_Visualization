@@ -1,12 +1,16 @@
-package kosmo.pathfinding;
+package kosmo.pathfinding.algorithm;
 
-public class Test2Algorithm implements Runnable
+import kosmo.pathfinding.framework.*;
+import kosmo.pathfinding.window.OutputConsole;
+import kosmo.pathfinding.window.Scene;
+
+public class Example2 implements Runnable
 {
     // Attributes
     private final GridSquare[][] gridSquares;
 
     // Constructor
-    public Test2Algorithm(GridSquare[][] gridSquares)
+    public Example2(GridSquare[][] gridSquares)
     {
         this.gridSquares = gridSquares;
     }

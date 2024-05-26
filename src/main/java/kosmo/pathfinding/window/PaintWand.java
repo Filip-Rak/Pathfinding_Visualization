@@ -1,4 +1,7 @@
-package kosmo.pathfinding;
+package kosmo.pathfinding.window;
+
+import kosmo.pathfinding.framework.GridSquare;
+import kosmo.pathfinding.framework.State;
 
 public class PaintWand
 {

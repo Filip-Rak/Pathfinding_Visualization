@@ -3,13 +3,13 @@
 #Except ignore
 !.gitignore
 
-!framework.txt
+!src/main/resources/kosmo/pathfinding/extra/framework.txt
 
 # Except pom.xml
 !pom.xml
 
 # Except draft.png
-!draft.png
+!src/main/resources/kosmo/pathfinding/extra/draft.png
 
 # Except src directory
 !src/

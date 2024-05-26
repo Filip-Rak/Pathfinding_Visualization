@@ -1,9 +1,13 @@
-package kosmo.pathfinding;
+package kosmo.pathfinding.algorithm;
+
+import kosmo.pathfinding.framework.*;
+import kosmo.pathfinding.window.OutputConsole;
+import kosmo.pathfinding.window.Scene;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DFSRecursiveAlgorithm implements Runnable
+public class DFSRecursive implements Runnable
 {
     private final GridSquare[][] gridSquares;
     private final int rows;
@@ -12,7 +16,7 @@ public class DFSRecursiveAlgorithm implements Runnable
     private int pathLength = 0;
 
     // Constructor
-    public DFSRecursiveAlgorithm(GridSquare[][] gridSquares)
+    public DFSRecursive(GridSquare[][] gridSquares)
     {
         this.gridSquares = gridSquares;
         this.rows = Scene.GRID_ROWS;

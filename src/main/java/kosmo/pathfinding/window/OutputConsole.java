@@ -1,4 +1,4 @@
-package kosmo.pathfinding;
+package kosmo.pathfinding.window;
 
 import javafx.application.Platform;
 import javafx.scene.control.TextArea;

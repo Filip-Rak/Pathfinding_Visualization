@@ -1,15 +1,15 @@
-package kosmo.pathfinding;
+package kosmo.pathfinding.framework;
 
 import javafx.application.Platform;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import kosmo.pathfinding.window.OutputConsole;
 import org.kordamp.ikonli.javafx.FontIcon;
 
 public class Execution implements Runnable
 {
     // Attributes
     private final double MAX_SPEED = 5;
-    private final double MIN_SPEED = 0.1;
     private double speed = 1;
     private final long BASE_DELAY = 100;
     private volatile long timeToWait = BASE_DELAY;
@@ -98,6 +98,7 @@ public class Execution implements Runnable
     // Setters
     public void setSpeed(double speed)
     {
+        double MIN_SPEED = 0.1;
         this.speed = Math.clamp(speed, MIN_SPEED, MAX_SPEED);
 
         timeToWait = (long)((float)(BASE_DELAY) / this.speed);

@@ -1,4 +1,4 @@
-package kosmo.pathfinding;
+package kosmo.pathfinding.framework;
 
 import javafx.scene.paint.Color;
 

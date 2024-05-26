@@ -1,10 +1,14 @@
-package kosmo.pathfinding;
+package kosmo.pathfinding.algorithm;
+
+import kosmo.pathfinding.framework.*;
+import kosmo.pathfinding.window.OutputConsole;
+import kosmo.pathfinding.window.Scene;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public class DFSIterativeAlgorithm implements Runnable
+public class DFSIterative implements Runnable
 {
     private final GridSquare[][] gridSquares;
     private final int rows;
@@ -13,7 +17,7 @@ public class DFSIterativeAlgorithm implements Runnable
     private int pathLength = 0;
 
     // Constructor
-    public DFSIterativeAlgorithm(GridSquare[][] gridSquares)
+    public DFSIterative(GridSquare[][] gridSquares)
     {
         this.gridSquares = gridSquares;
         this.rows = Scene.GRID_ROWS;

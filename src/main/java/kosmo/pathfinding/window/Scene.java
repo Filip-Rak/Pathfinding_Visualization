@@ -1,4 +1,6 @@
-package kosmo.pathfinding;
+package kosmo.pathfinding.window;
+
+import kosmo.pathfinding.framework.GridSquare;
 
 public class Scene
 {
@@ -14,7 +16,7 @@ public class Scene
     private final boolean readOnly;
 
     // Constructors
-    Scene(GridSquare[][] gridElements, String name, GridSquare origin, GridSquare destination, boolean readOnly)
+    public Scene(GridSquare[][] gridElements, String name, GridSquare origin, GridSquare destination, boolean readOnly)
     {
         this.name = name;
         this.gridElements = gridElements;

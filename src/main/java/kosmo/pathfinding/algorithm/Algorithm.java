@@ -1,4 +1,4 @@
-package kosmo.pathfinding;
+package kosmo.pathfinding.algorithm;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -7,34 +7,25 @@ public enum Algorithm
 {
     // Enums
     DIJKSTRA(
-            DijkstraAlgorithm.class,
-            "Dijkstra's description"
+            Dijkstra.class,
+            "Efficiently finds shortest paths from a source using a priority queue."
     ),
 
     A_STAR(
-            AstarAlgorithm.class,
-            "A*'s description"
+            AStar.class,
+            "Enhances Dijkstra by using heuristics to predict distances, speeding up the survey."
     ),
     GFB(
-            GFBAlgorithm.class,
-            "\"Greedy first best\""
+            kosmo.pathfinding.algorithm.GFB.class,
+            "Greedy First Best. Explores paths greedily based on promising leads, focusing on likely best first."
     ),
     DFS_RECURSIVE(
-            DFSRecursiveAlgorithm.class,
-            "Depth-First Search algorithm recursive implementation"
+            DFSRecursive.class,
+            "Depth First Search. Explores deepest paths first using recursion."
     ),
     DFS_ITERATIVE(
-            DFSIterativeAlgorithm.class,
-            "Depth-First Search algorithm iterative implementation"
-    ),
-    TEST1(
-            Test1Algorithm.class,
-            "Test 1 description"
-    ),
-
-    TEST2(
-            Test2Algorithm.class,
-            "Test 2 description"
+            DFSIterative.class,
+            "Depth First Search. Deep path exploration using a stack, iteratively."
     );
 
     // Attributes

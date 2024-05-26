@@ -1,12 +1,13 @@
-package kosmo.pathfinding;
+package kosmo.pathfinding.window;
 
 import javafx.scene.shape.Rectangle;
+import kosmo.pathfinding.framework.GridSquare;
+import kosmo.pathfinding.framework.State;
 
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.Objects;
@@ -14,7 +15,7 @@ import java.util.Objects;
 public class SceneLoader
 {
     // Attributes
-    private static final String directoryPath = "src/main/resources/scenes";
+    private static final String directoryPath = "src/main/resources/kosmo/pathfinding/scenes";
     public static final String extension = "pfscene";
 
     // Methods

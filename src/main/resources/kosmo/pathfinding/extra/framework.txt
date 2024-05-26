@@ -1,6 +1,5 @@
-Klasa Twojego algorytmu: 
-- musi mieć na końcu nazwy Algorithm
-- musi mieć package kosmo.pathfinding
+Klasa Twojego algorytmu:
+- musi mieć package kosmo.pathfinding.algorithm
 - musi implementować Runnable
 - musi mieć metode public void run() z anotacją @Override
 
