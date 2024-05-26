@@ -10,6 +10,7 @@ public class DFSIterativeAlgorithm implements Runnable
     private final int rows;
     private final int cols;
     private final GridSquare[][] parent;
+    private int pathLength = 0;
 
     // Constructor
     public DFSIterativeAlgorithm(GridSquare[][] gridSquares)
@@ -41,7 +42,7 @@ public class DFSIterativeAlgorithm implements Runnable
         if (pathFound)
         {
             tracePath(start.x, start.y, end.x, end.y);
-            Execution.get().stopPoint(getPathLength(start.x, start.y, end.x, end.y));
+            Execution.get().stopPoint(pathLength);
         }
         else
         {
@@ -86,7 +87,7 @@ public class DFSIterativeAlgorithm implements Runnable
             if (!visited[row][col])
             {
                 visited[row][col] = true;
-                if (current.getState() != State.ORIGIN && current.getState() != State.DESTINATION && current.getState() != State.OBSTACLE)
+                if (current.getState() != State.OBSTACLE)
                 {
                     current.setState(State.VISITED);
                     Execution.get().Wait();
@@ -113,7 +114,6 @@ public class DFSIterativeAlgorithm implements Runnable
                 }
             }
         }
-
         return false;
     }
 
@@ -128,6 +128,7 @@ public class DFSIterativeAlgorithm implements Runnable
             }
             Execution.get().Wait();
             current = parent[current.getRow()][current.getCol()];
+            pathLength++;
         }
 
         gridSquares[startX][startY].setState(State.ORIGIN);
@@ -147,19 +148,6 @@ public class DFSIterativeAlgorithm implements Runnable
 
         return neighbors;
     }
-
-    private int getPathLength(int startX, int startY, int endX, int endY)
-    {
-        int length = 0;
-        GridSquare current = gridSquares[endX][endY];
-        while (current.getRow() != startX || current.getCol() != startY)
-        {
-            length++;
-            current = parent[current.getRow()][current.getCol()];
-        }
-        return length;
-    }
-
     private static class Point
     {
         int x;

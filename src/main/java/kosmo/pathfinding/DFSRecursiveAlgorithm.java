@@ -9,6 +9,7 @@ public class DFSRecursiveAlgorithm implements Runnable
     private final int rows;
     private final int cols;
     private final GridSquare[][] parent;
+    private int pathLength = 0;
 
     // Constructor
     public DFSRecursiveAlgorithm(GridSquare[][] gridSquares)
@@ -40,7 +41,7 @@ public class DFSRecursiveAlgorithm implements Runnable
         if (pathFound)
         {
             tracePath(start.x, start.y, end.x, end.y);
-            Execution.get().stopPoint(getPathLength(start.x, start.y, end.x, end.y));
+            Execution.get().stopPoint(pathLength);
         }
         else
         {
@@ -82,7 +83,21 @@ public class DFSRecursiveAlgorithm implements Runnable
         gridSquares[row][col].setState(State.VISITED);
         Execution.get().Wait();
 
-        for (GridSquare neighbor : getNeighbors(gridSquares[row][col]))
+        List<GridSquare> neighbors = getNeighbors(gridSquares[row][col]);
+
+        // Loop below is only for correct visualization of State.FRONTIER
+        for (GridSquare neighbor : neighbors)
+        {
+            int nRow = neighbor.getRow();
+            int nCol = neighbor.getCol();
+            if (!visited[nRow][nCol] && neighbor.getState() != State.OBSTACLE)
+            {
+                neighbor.setState(State.FRONTIER);
+                Execution.get().Wait();
+            }
+        }
+
+        for (GridSquare neighbor : neighbors)
         {
             int nRow = neighbor.getRow();
             int nCol = neighbor.getCol();
@@ -90,15 +105,17 @@ public class DFSRecursiveAlgorithm implements Runnable
             if (!visited[nRow][nCol] && neighbor.getState() != State.OBSTACLE)
             {
                 parent[nRow][nCol] = gridSquares[row][col];
-                neighbor.setState(State.FRONTIER);
-                Execution.get().Wait();
 
                 if (DFSPathFinder(nRow, nCol, endX, endY, visited))
                 {
                     return true;
                 }
+
+                // Optional: backtrack to none if you want to clear non-solution paths visually
+                // neighbor.setState(State.NONE);
             }
         }
+
         return false;
     }
 
@@ -113,6 +130,7 @@ public class DFSRecursiveAlgorithm implements Runnable
             }
             Execution.get().Wait();
             current = parent[current.getRow()][current.getCol()];
+            pathLength++;
         }
 
         gridSquares[startX][startY].setState(State.ORIGIN);
@@ -131,18 +149,6 @@ public class DFSRecursiveAlgorithm implements Runnable
         if (col < cols - 1) neighbors.add(gridSquares[row][col + 1]); // Right
 
         return neighbors;
-    }
-
-    private int getPathLength(int startX, int startY, int endX, int endY)
-    {
-        int length = 0;
-        GridSquare current = gridSquares[endX][endY];
-        while (current.getRow() != startX || current.getCol() != startY)
-        {
-            length++;
-            current = parent[current.getRow()][current.getCol()];
-        }
-        return length;
     }
 
     private static class Point
