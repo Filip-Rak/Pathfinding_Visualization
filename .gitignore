@@ -18,3 +18,7 @@
 # Except scenes directory
 !scenes/
 !scenes/**
+
+# Except media
+!media/
+!media/**
