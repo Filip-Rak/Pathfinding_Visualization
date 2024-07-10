@@ -44,12 +44,12 @@ On the right side of the window, choose different blocks to place on the scene u
 
 
 ## Adding Custom Algorithms
-To integrate custom algorithms into the Pathfinding Visualization project, follow these steps:
+To integrate custom algorithms into the project, follow these steps:
 
 - **Clone the Repository:** Begin by cloning the project repository to your local machine.
 - **Open in IntellijIDEA (or IDE of Choice):** IntellijIDEA is recommended as it was a native IDE for the project.
 - **Coding Instructions:** Refer to the detailed coding instructions available in the ![framework_en](src/main/resources/kosmo/pathfinding/extra/framework_en.txt) file for comprehensive guidelines on implementing new algorithms.
 - **Compile the Project:**
 
-These steps will allow you to extend the functionality of the Pathfinding Visualization project with your own pathfinding algorithms effectively.
+These steps will allow you to extend the functionality of the tool with your own pathfinding algorithms.
 
