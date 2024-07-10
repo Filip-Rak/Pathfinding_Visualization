@@ -3,7 +3,7 @@ Pathfinding Visualization is a graphical tool allowing for the visualization of 
 The program is written in Java language, extensively utilizing the JavaFX framework. 
 
 <p align="center">
-  <img height="60%" width="60%" src="media/demo.gif">
+  <img height="70%" width="70%" src="media/demo.gif">
 </p>
 
 # Authors
