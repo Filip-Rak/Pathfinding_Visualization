@@ -3,11 +3,8 @@ Pathfinding Visualization is a graphical tool allowing for the visualization of 
 The program is written in Java language, extensively utilizing the JavaFX framework. 
 
 <p align="center">
-  <img src="media/demo.gif">
+  <img height="60%" width="60%" src="media/demo.gif">
 </p>
-
-# Background
-The project was developed as a final assignment for the 'Computational Geometry' course during our fourth semester at AGH University of Science and Technology in Cracow.
 
 # Authors
 
@@ -15,6 +12,10 @@ The project was developed as a final assignment for the 'Computational Geometry'
 - **[Wojtek](https://github.com/vvszewczyk)**: Implementation of Dijkstra's Algorithm.
 - **[Arek](https://github.com/arekan144)**: Implementation of A* and Greedy-Search-Best Algorithms.
 - **[Rafał](https://github.com/Rafallost)**: Implementation of Depth-First-Search Algorithm (Recursive and Iterative).
+
+# Background
+The project was developed as a final assignment for the 'Computational Geometry' course during our fourth semester at AGH University of Science and Technology in Cracow.
+
 
 # Used Technologies
 - **Programming Language**: Java 21.
