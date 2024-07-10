@@ -2,8 +2,19 @@
 Pathfinding Visualization is a graphical tool allowing for the visualization of various pathfinding algorithms. 
 The program is written in Java language, extensively utilizing the JavaFX framework. 
 
+<p align="center">
+  <img src="media/demo.gif">
+</p>
+
 # Background
 The project was developed as a final assignment for the 'Computational Geometry' course during our fourth semester at AGH University of Science and Technology in Cracow.
+
+# Authors
+
+- **[Filip](https://github.com/Filip-Rak)**: Project Concept, UI Design, Framework Development.
+- **[Wojtek](https://github.com/vvszewczyk)**: Implementation of Dijkstra's Algorithm.
+- **[Arek](https://github.com/arekan144)**: Implementation of A* and Greedy-Search-Best Algorithms.
+- **[Rafał](https://github.com/Rafallost)**: Implementation of Depth-First-Search Algorithm (Recursive and Iterative).
 
 # Used Technologies
 - **Programming Language**: Java 21.
@@ -38,7 +49,7 @@ On the right side of the window, choose different blocks to place on the scene u
 - Hold `Q` and press arrow keys to adjust speed incrementally.
 - Hold `E` and press arrow keys for maximum speed.
 - Avoid pressing stop button multiple times. Sometimes it may take a second for the algorithm thread to finish and UI to refresh.
-- 
+  
 ## Time Measurement
 - Please note: There is a known issue affecting the accuracy of time measurements. For precise timing, ensure you use consistent speed settings across different algorithms and avoid pausing or stopping during execution.
 
@@ -52,4 +63,31 @@ To integrate custom algorithms into the project, follow these steps:
 - **Compile the Project:**
 
 These steps will allow you to extend the functionality of the tool with your own pathfinding algorithms.
+
+# Installation
+Currently the release has not yet come into fruition. As it turned out, a simple 'buildining' of the project may in fact be a quite significant bother for language as great as Java, requiring many hours of agony. 
+
+However, setting up the project from the repository is straightforward:
+
+1. **Clone the Repository:**
+   - Clone the project repository to your local machine using Git.
+
+2. **Open in IntelliJ IDEA:**
+   - Open the project in IntelliJ IDEA, or any other IDE.
+
+3. **Reload Maven Project:**
+   - Right-click on the Maven project file (`pom.xml`) and select "Reload Project."
+   - This process may take a minute to download dependencies and configure the project.
+
+4. **Run the Project:**
+   - Once IntelliJ IDEA has finished loading dependencies, you can run the project from within the IDE.
+
+# Requirements
+
+Since there is no packed `.jar` version available, ensure you have the following:
+
+- **IDE**: IntelliJ IDEA or any IDE of your choice that supports Java development.
+- **JDK**: Version 21 or higher of the Java Development Kit (JDK).
+  - Ensure JDK 21 or a compatible version is installed on your system.
+  - This is necessary for compiling and running the project from its source code.
 
