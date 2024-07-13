@@ -47,8 +47,8 @@ On the right side of the window, choose different blocks to place on the scene u
 - The bottom window provides important information. Check its output for unexpected behavior.
 
 ## Speed Control
-- Hold `Q` and press arrow keys to adjust speed incrementally.
-- Hold `E` and press arrow keys for maximum speed.
+- Hold `Q` and press forward/backward buttons to adjust speed incrementally.
+- Hold `E` and press forward/backward buttons for maximum speed / minimum speed.
 - Avoid pressing stop button multiple times. Sometimes it may take a second for the algorithm thread to finish and UI to refresh.
   
 ## Time Measurement
