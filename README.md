@@ -8,7 +8,7 @@ The program is written in Java language, extensively utilizing the JavaFX framew
 
 # Authors
 
-- **[Filip](https://github.com/Filip-Rak)**: Project Concept, UI Design, Framework Development.
+- **[Filip](https://github.com/Filip-Rak)**: Project Concept, UI Design, Framework.
 - **[Wojtek](https://github.com/vvszewczyk)**: Implementation of Dijkstra's Algorithm.
 - **[Arek](https://github.com/arekan144)**: Implementation of A* and Greedy-Search-Best Algorithms.
 - **[Rafał](https://github.com/Rafallost)**: Implementation of Depth-First-Search Algorithm (Recursive and Iterative).
