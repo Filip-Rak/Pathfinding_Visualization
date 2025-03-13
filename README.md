@@ -60,7 +60,7 @@ To integrate custom algorithms into the project, follow these steps:
 
 - **Clone the Repository:** Begin by cloning the project repository to your local machine.
 - **Open in IntellijIDEA (or IDE of Choice):** IntellijIDEA is recommended as it was a native IDE for the project.
-- **Coding Instructions:** Refer to the detailed coding instructions available in the ![framework_en](src/main/resources/kosmo/pathfinding/extra/framework_en.txt) file for comprehensive guidelines on implementing new algorithms.
+- **Coding Instructions:** Refer to the detailed coding examples within source files for comprehensive guidelines on implementing new algorithms.
 - **Compile the Project:**
 
 These steps will allow you to extend the functionality of the tool with your own pathfinding algorithms.
