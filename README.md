@@ -66,10 +66,6 @@ To integrate custom algorithms into the project, follow these steps:
 These steps will allow you to extend the functionality of the tool with your own pathfinding algorithms.
 
 # Installation
-Currently the release has not yet come into fruition. As it turned out, a simple 'buildining' of the project may in fact be a quite significant bother for language as great as Java, requiring many hours of agony. 
-
-However, setting up the project from the repository is straightforward:
-
 1. **Clone the Repository:**
    - Clone the project repository to your local machine using Git.
 
