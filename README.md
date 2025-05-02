@@ -13,10 +13,6 @@ The program is written in Java language, extensively utilizing the JavaFX framew
 - **[Arek](https://github.com/arekan144)**: Implementation of A* and Greedy-Search-Best Algorithms.
 - **[Rafał](https://github.com/Rafallost)**: Implementation of Depth-First-Search Algorithms.
 
-# Background
-The project was developed as a final assignment for the 'Computational Geometry' course during our fourth semester at AGH University of Science and Technology in Cracow.
-
-
 # Used Technologies
 - **Programming Language**: Java 21.
 - **Framework**: JavaFX.
